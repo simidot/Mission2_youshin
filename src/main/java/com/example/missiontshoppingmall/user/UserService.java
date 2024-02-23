@@ -84,6 +84,7 @@ public class UserService {
         }
         UserEntity foundUser = optionalUser.get();
         foundUser.setBusinessNumber(dto.getBusinessNumber());
+        foundUser.setBusinessIsAllowed(false);
         foundUser = userRepository.save(foundUser);
 
         return BAResponse.fromEntity(foundUser);

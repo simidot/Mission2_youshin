@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -45,6 +47,26 @@ public class AdminService {
                 .businessNumber(foundUser.getBusinessNumber())
                 .businessIsAllowed(foundUser.getBusinessIsAllowed())
                 .build();
+    }
+
+    // 사업자 전환신청 전체조회
+    public List<BAResponse> findAllBARequests() {
+        List<UserEntity> userEntityList = userRepository.findByBusinessNumberIsNotNullOrderByUpdatedAtDesc();
+        List<BAResponse> responseList = new ArrayList<>();
+        for (UserEntity entity : userEntityList) {
+            responseList.add(BAResponse.fromEntity(entity));
+        }
+        return responseList;
+    }
+
+    // 사업자 전환신청 단일조회
+    public BAResponse findOneBARequest(String accountId) {
+        Optional<UserEntity> optionalUser = userRepository.findByAccountId(accountId);
+        if (optionalUser.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        UserEntity foundUser = optionalUser.get();
+        return BAResponse.fromEntity(foundUser);
     }
 
 }

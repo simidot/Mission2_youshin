@@ -83,7 +83,7 @@ public class CustomUserDetailsManager implements UserDetailsManager {
 
             UserEntity newUser = UserEntity.builder()
                     .accountId(userDetails.getUserId())
-                    .password(userDetails.getPassword())
+                    .password(passwordEncoder.encode(userDetails.getPassword()))
                     .authority(userDetails.getStringAuthorities())
                     .build();
             userRepository.save(newUser);

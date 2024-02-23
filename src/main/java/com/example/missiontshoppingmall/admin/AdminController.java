@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @Slf4j
 @RequiredArgsConstructor
@@ -21,4 +23,19 @@ public class AdminController {
     ) {
         return adminService.manageBusinessAccount(accountId, agreement);
     }
+
+    // 사업자 전환신청 리스트 조회
+    @GetMapping("/business")
+    public List<BAResponse> baRequests() {
+        return adminService.findAllBARequests();
+    }
+
+    // 사업자 전환신청 단일조회
+    @GetMapping("/business/{accountId}")
+    public BAResponse baRequest(
+            @PathVariable("accountId") String accountId
+    ) {
+        return adminService.findOneBARequest(accountId);
+    }
+
 }
