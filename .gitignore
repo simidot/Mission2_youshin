@@ -37,4 +37,4 @@ out/
 .vscode/
 
 #yaml파일
-*.yaml
+**.yaml

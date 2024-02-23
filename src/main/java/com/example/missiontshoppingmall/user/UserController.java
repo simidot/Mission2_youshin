@@ -1,8 +1,9 @@
 package com.example.missiontshoppingmall.user;
 
-import com.example.missiontshoppingmall.AuthenticationFacade;
+import com.example.missiontshoppingmall.user.dto.BARequest;
 import com.example.missiontshoppingmall.user.dto.UserAdditionalInfoDto;
 import com.example.missiontshoppingmall.user.dto.UserRegisterDto;
+import com.example.missiontshoppingmall.user.dto.client.BAResponse;
 import com.example.missiontshoppingmall.user.dto.client.UserAdditionalInfoResponse;
 import com.example.missiontshoppingmall.user.dto.client.UserRegisterResponse;
 import com.example.missiontshoppingmall.user.jwt.JwtRequestDto;
@@ -10,7 +11,6 @@ import com.example.missiontshoppingmall.user.jwt.JwtResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -46,6 +46,14 @@ public class UserController {
     ) {
         // 클라이언트측에서 추가정보에 대한 validation이 진행되었다고 가정.
         return userService.additionalInfo(id, dto);
+    }
+
+    @PostMapping("/{accountId}/business-request")
+    public BAResponse businessAccountRequest(
+            @PathVariable("accountId") String accountId,
+            @RequestBody BARequest requestDto
+    ) {
+        return userService.registerBusinessAccount(accountId, requestDto);
     }
 }
 

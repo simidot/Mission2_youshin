@@ -31,8 +31,8 @@ public class WebSecurityConfig {
                                 auth.requestMatchers("/users/login", "/users/register")
                                         .anonymous()
                                         // 추가정보 입력은 inactive만 가능
-                                        .requestMatchers("/users/additional-info")
-                                        .hasAnyAuthority("INACTIVE", "ACTIVE")
+                                        .requestMatchers("/users/additional-info", "/users/business")
+                                        .hasAnyRole("INACTIVE", "ACTIVE")
                                         // 중고거래, 쇼핑몰 서비스 이용 active, business만 가능
                                         .requestMatchers("/used-goods")
                                         .hasAnyRole("ACTIVE")
@@ -40,8 +40,8 @@ public class WebSecurityConfig {
                                         .requestMatchers("/shopping-mall")
                                         .hasRole("BUSINESS")
                                         // 관리자 페이지는 관리자만 가능
-                                        .requestMatchers("/admin/*")
-                                        .hasAuthority("ADMIN")
+                                        .requestMatchers("/admin/**")
+                                        .hasAnyRole("ADMIN")
                                         .anyRequest().authenticated()
 
                 )

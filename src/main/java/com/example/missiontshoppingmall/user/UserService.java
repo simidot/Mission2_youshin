@@ -1,7 +1,9 @@
 package com.example.missiontshoppingmall.user;
 
+import com.example.missiontshoppingmall.user.dto.BARequest;
 import com.example.missiontshoppingmall.user.dto.UserAdditionalInfoDto;
 import com.example.missiontshoppingmall.user.dto.UserRegisterDto;
+import com.example.missiontshoppingmall.user.dto.client.BAResponse;
 import com.example.missiontshoppingmall.user.dto.client.UserAdditionalInfoResponse;
 import com.example.missiontshoppingmall.user.dto.client.UserRegisterResponse;
 import com.example.missiontshoppingmall.user.entity.CustomUserDetails;
@@ -13,8 +15,6 @@ import com.example.missiontshoppingmall.user.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -74,7 +74,7 @@ public class UserService {
         UserEntity foundUser = optionalUser.get();
 
         boolean dtoCheck = Stream.of(
-                dto.getAge(), dto.getEmail(), dto.getUsername(), dto.getNickname(), dto.getPhone())
+                        dto.getAge(), dto.getEmail(), dto.getUsername(), dto.getNickname(), dto.getPhone())
                 .allMatch(Objects::nonNull);
         if (dtoCheck) {
             foundUser.setUsername(dto.getUsername());
@@ -87,6 +87,24 @@ public class UserService {
             foundUser = userRepository.save(foundUser);
         }
         UserAdditionalInfoResponse response = UserAdditionalInfoResponse.fromEntity(foundUser);
+        return response;
+    }
+
+    @Transactional
+    public BAResponse registerBusinessAccount(String accountId, BARequest dto) {
+        Optional<UserEntity> optionalUser = userRepository.findByAccountId(accountId);
+        if (optionalUser.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        UserEntity foundUser = optionalUser.get();
+        foundUser.setBusinessNumber(dto.getBusinessNumber());
+        userRepository.save(foundUser);
+        BAResponse response = BAResponse.builder()
+                .accountId(accountId)
+                .businessNumber(dto.getBusinessNumber())
+                .businessIsAllowed(false)
+                .authority("ROLE_ACTIVE") //수락 이전이므로 ACTIVE인 상태
+                .build();
         return response;
     }
 
