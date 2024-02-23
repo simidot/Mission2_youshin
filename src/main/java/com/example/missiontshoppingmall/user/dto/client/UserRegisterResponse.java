@@ -1,4 +1,4 @@
-package com.example.missiontshoppingmall.dto;
+package com.example.missiontshoppingmall.user.dto.client;
 
 import lombok.*;
 
@@ -7,7 +7,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class UserLoginDto {
+public class UserRegisterResponse {
     private String userId;
-    private String password;
 }

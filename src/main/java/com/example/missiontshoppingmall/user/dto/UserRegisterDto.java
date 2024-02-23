@@ -1,4 +1,4 @@
-package com.example.missiontshoppingmall.dto;
+package com.example.missiontshoppingmall.user.dto;
 
 import lombok.*;
 

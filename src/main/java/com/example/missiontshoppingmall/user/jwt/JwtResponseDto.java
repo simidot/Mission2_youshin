@@ -1,4 +1,4 @@
-package com.example.missiontshoppingmall.jwt;
+package com.example.missiontshoppingmall.user.jwt;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class JwtRequestDto {
-    private String userId;
-    private String password;
+public class JwtResponseDto {
+    private String token;
 }

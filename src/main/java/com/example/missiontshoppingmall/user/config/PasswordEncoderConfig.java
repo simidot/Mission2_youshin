@@ -1,4 +1,4 @@
-package com.example.missiontshoppingmall.config;
+package com.example.missiontshoppingmall.user.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

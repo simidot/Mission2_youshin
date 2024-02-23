@@ -1,6 +1,6 @@
-package com.example.missiontshoppingmall.repo;
+package com.example.missiontshoppingmall.user.repo;
 
-import com.example.missiontshoppingmall.entity.UserEntity;
+import com.example.missiontshoppingmall.user.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,7 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
-    Optional<UserEntity> findByUserId(String userId);
+    Optional<UserEntity> findByAccountId(String userId);
 
-    boolean existsByUserId(String userId);
+    boolean existsByAccountId(String userId);
 }

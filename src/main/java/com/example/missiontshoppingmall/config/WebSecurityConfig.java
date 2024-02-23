@@ -1,7 +1,7 @@
 package com.example.missiontshoppingmall.config;
 
-import com.example.missiontshoppingmall.jwt.JwtTokenFilter;
-import com.example.missiontshoppingmall.jwt.JwtTokenUtils;
+import com.example.missiontshoppingmall.user.jwt.JwtTokenFilter;
+import com.example.missiontshoppingmall.user.jwt.JwtTokenUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,17 +32,18 @@ public class WebSecurityConfig {
                                         .anonymous()
                                         // 추가정보 입력은 inactive만 가능
                                         .requestMatchers("/users/additional-info")
-                                        .hasRole("INACTIVE")
+                                        .hasAnyAuthority("INACTIVE", "ACTIVE")
                                         // 중고거래, 쇼핑몰 서비스 이용 active, business만 가능
                                         .requestMatchers("/used-goods")
-                                        .hasAnyRole("ACTIVE", "BUSINESS")
+                                        .hasAnyRole("ACTIVE")
                                         // 쇼핑몰 운영 서비스는 business회원만 가능
                                         .requestMatchers("/shopping-mall")
                                         .hasRole("BUSINESS")
                                         // 관리자 페이지는 관리자만 가능
                                         .requestMatchers("/admin/*")
-                                        .hasRole("ADMIN")
+                                        .hasAuthority("ADMIN")
                                         .anyRequest().authenticated()
+
                 )
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

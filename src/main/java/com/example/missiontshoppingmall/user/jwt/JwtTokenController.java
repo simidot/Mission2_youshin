@@ -1,4 +1,4 @@
-package com.example.missiontshoppingmall.jwt;
+package com.example.missiontshoppingmall.user.jwt;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

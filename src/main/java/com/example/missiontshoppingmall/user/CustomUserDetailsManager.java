@@ -1,7 +1,8 @@
-package com.example.missiontshoppingmall.service;
+package com.example.missiontshoppingmall.user;
 
-import com.example.missiontshoppingmall.entity.UserEntity;
-import com.example.missiontshoppingmall.repo.UserRepository;
+import com.example.missiontshoppingmall.user.entity.CustomUserDetails;
+import com.example.missiontshoppingmall.user.entity.UserEntity;
+import com.example.missiontshoppingmall.user.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -25,16 +26,19 @@ public class CustomUserDetailsManager implements UserDetailsManager {
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
         //repo에서 userId로 찾아오기
-        Optional<UserEntity> optionalUser = userRepository.findByUserId(userId);
+        Optional<UserEntity> optionalUser = userRepository.findByAccountId(userId);
         if (optionalUser.isEmpty()) {
+            log.info("loadUserByUsername : not found");
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
 
         UserEntity userEntity = optionalUser.get();
+        log.info("load:: "+userEntity.toString());
 
         //리턴을 UserDetails 형태로 한다
-        UserDetails userDetails = User.withUsername(userEntity.getUserId())
+        UserDetails userDetails = User.withUsername(userEntity.getAccountId())
                 .password(userEntity.getPassword())
+                .authorities(userEntity.getAuthority())
                 .build();
         return userDetails;
     }
@@ -44,14 +48,16 @@ public class CustomUserDetailsManager implements UserDetailsManager {
     public void createUser(UserDetails user) {
         // userId가 겹치면 안됨
         if (this.userExists(user.getUsername())) {
+            log.info("user already exists");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
         try {//안겹치면 가입진행
-            UserDetails userDetails = user;
+            CustomUserDetails userDetails = (CustomUserDetails) user;
+
             UserEntity newUser = UserEntity.builder()
-                    .userId(userDetails.getUsername())
-                    .password(passwordEncoder.encode(userDetails.getPassword()))
-                    .authority(userDetails.getAuthorities().toString())
+                    .accountId(userDetails.getUserId())
+                    .password(userDetails.getPassword())
+                    .authority(userDetails.getStringAuthorities())
                     .build();
             userRepository.save(newUser);
         } catch (Exception e) {
@@ -81,7 +87,7 @@ public class CustomUserDetailsManager implements UserDetailsManager {
 
     @Override
     public boolean userExists(String userId) {
-        return userRepository.existsByUserId(userId);
+        return userRepository.existsByAccountId(userId);
     }
 
 
