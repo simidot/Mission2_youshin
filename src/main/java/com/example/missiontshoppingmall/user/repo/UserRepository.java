@@ -8,7 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
-    Optional<UserEntity> findByAccountId(String userId);
-
-    boolean existsByAccountId(String userId);
+    Optional<UserEntity> findByAccountId(String userId); //계정아이디로 찾기
+    boolean existsByAccountId(String userId); //계정아이디로 존재여부 확인
 }

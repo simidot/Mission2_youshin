@@ -20,6 +20,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+//들어온 요청에 대해 토큰 유효성 확인 &이에 따른 인증정보를 등록해주는 필터
 @Slf4j
 @RequiredArgsConstructor
 public class JwtTokenFilter extends OncePerRequestFilter {

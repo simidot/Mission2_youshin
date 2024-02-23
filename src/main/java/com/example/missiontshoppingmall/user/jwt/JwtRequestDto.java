@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class JwtRequestDto {
+public class JwtRequestDto { //로그인시 JwtToken받기위한 요청Dto
     private String userId;
     private String password;
 }

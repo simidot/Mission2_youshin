@@ -43,7 +43,6 @@ public class WebSecurityConfig {
                                         .requestMatchers("/admin/**")
                                         .hasAnyRole("ADMIN")
                                         .anyRequest().authenticated()
-
                 )
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

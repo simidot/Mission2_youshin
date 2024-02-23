@@ -2,6 +2,9 @@ package com.example.missiontshoppingmall.user;
 
 import com.example.missiontshoppingmall.user.entity.CustomUserDetails;
 import com.example.missiontshoppingmall.user.entity.UserEntity;
+import com.example.missiontshoppingmall.user.jwt.JwtRequestDto;
+import com.example.missiontshoppingmall.user.jwt.JwtResponseDto;
+import com.example.missiontshoppingmall.user.jwt.JwtTokenUtils;
 import com.example.missiontshoppingmall.user.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,8 +23,9 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailsManager implements UserDetailsManager {
-    private final UserRepository userRepository;
+    private final JwtTokenUtils jwtTokenUtils;
     private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
@@ -33,8 +37,6 @@ public class CustomUserDetailsManager implements UserDetailsManager {
         }
 
         UserEntity userEntity = optionalUser.get();
-        log.info("load:: "+userEntity.toString());
-
         //리턴을 UserDetails 형태로 한다
         UserDetails userDetails = User.withUsername(userEntity.getAccountId())
                 .password(userEntity.getPassword())
@@ -43,6 +45,31 @@ public class CustomUserDetailsManager implements UserDetailsManager {
         return userDetails;
     }
 
+    public JwtResponseDto userLogin(JwtRequestDto dto) {
+        // 넘어온 dto의 계정id가 없는 계정이라면 예외 발생
+        if (!this.userExists(dto.getUserId())) {
+            log.warn("user not exists");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+
+        UserDetails userDetails = this.loadUserByUsername(dto.getUserId());
+        // 비밀번호가 옳지 않아도 예외 발생
+        if (!passwordEncoder.matches(dto.getPassword(), userDetails.getPassword())) {
+            log.warn("password mismatch");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+
+        //일치하면 토큰 발급
+        String generatedToken = jwtTokenUtils.generateToken(userDetails);
+        // 토큰과 subject dto에 넣어 반환
+        JwtResponseDto jwtResponseDto = JwtResponseDto.builder()
+                .token(generatedToken)
+                .subject(jwtTokenUtils.parseClaims(generatedToken).getSubject())
+                .build();
+        log.info("토큰 발급 완료 : {}", jwtResponseDto.getSubject());
+        return jwtResponseDto;
+
+    }
 
     @Override
     public void createUser(UserDetails user) {
@@ -67,28 +94,22 @@ public class CustomUserDetailsManager implements UserDetailsManager {
     }
 
     @Override
+    public boolean userExists(String userId) {
+        return userRepository.existsByAccountId(userId);
+    }
+
+    @Override
     public void updateUser(UserDetails user) {
         throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED);
-
-
     }
 
     @Override
     public void deleteUser(String username) {
         throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
     @Override
     public void changePassword(String oldPassword, String newPassword) {
         throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED);
-
     }
-
-    @Override
-    public boolean userExists(String userId) {
-        return userRepository.existsByAccountId(userId);
-    }
-
-
 }

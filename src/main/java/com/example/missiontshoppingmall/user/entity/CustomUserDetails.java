@@ -24,17 +24,18 @@ public class CustomUserDetails implements UserDetails {
     private String password;
     private String authorities; //권한을 ,로 구분지어 String으로 저장.
 
-    //추가 입력 정보
-    private String username;
-    private String nickname;
-    private Integer age;
-    private String email;
-    private String phone;
-
-    //선택 입력 사항
-    private String profile; //이미지 저장 경로를 저장 (이미지 자체를 저장하지 않음)
-    private String businessNumber; //사업자 번호
-    private String businessIsAllowed; //사업자 허가 여부
+    //todo: 추가정보/선택정보를 UserDetails에 넣는것이 맞는가?
+//    //추가 입력 정보
+//    private String username;
+//    private String nickname;
+//    private Integer age;
+//    private String email;
+//    private String phone;
+//
+//    //선택 입력 사항
+//    private String profile; //이미지 저장 경로를 저장 (이미지 자체를 저장하지 않음)
+//    private String businessNumber; //사업자 번호
+//    private String businessIsAllowed; //사업자 허가 여부
 
     public String getStringAuthorities() {
         return this.authorities;

@@ -40,6 +40,4 @@ public class UserEntity extends BaseEntity {
     private String businessNumber; //사업자 번호
     @Setter
     private Boolean businessIsAllowed; //사업자 허가 여부
-
-
 }

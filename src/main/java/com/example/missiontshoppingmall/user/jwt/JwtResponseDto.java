@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class JwtResponseDto {
+public class JwtResponseDto { //로그인 요청 후 반환 DTO 토큰값 반환
+    private String subject;
     private String token;
 }

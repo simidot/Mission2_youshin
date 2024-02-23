@@ -1,4 +1,4 @@
-package com.example.missiontshoppingmall.user.dto.client;
+package com.example.missiontshoppingmall.user.dto.response;
 
 import com.example.missiontshoppingmall.user.entity.UserEntity;
 import lombok.*;
@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class UserAdditionalInfoResponse {
+public class AdditionalInfo { //추가정보+계정id+권한
     private String accountId;
     private String authority;
     private String username;
@@ -17,8 +17,8 @@ public class UserAdditionalInfoResponse {
     private String email;
     private String phone;
 
-    public static UserAdditionalInfoResponse fromEntity(UserEntity entity) {
-        return UserAdditionalInfoResponse.builder()
+    public static AdditionalInfo fromEntity(UserEntity entity) {
+        return AdditionalInfo.builder()
                 .accountId(entity.getAccountId())
                 .authority(entity.getAuthority())
                 .username(entity.getUsername())

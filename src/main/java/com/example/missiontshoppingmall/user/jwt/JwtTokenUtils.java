@@ -19,7 +19,7 @@ import java.util.Collection;
 
 @Slf4j
 @Component
-public class JwtTokenUtils {
+public class JwtTokenUtils { //JwtToken관련 서비스
     private final Key signingKey;
     private final JwtParser jwtParser;
 
@@ -62,7 +62,7 @@ public class JwtTokenUtils {
 
     // payload를 반환
     public Claims parseClaims(String token) {
-        log.info("parseClaims:::" + jwtParser.parseClaimsJws(token).getBody());
+//        log.info("parseClaims:::" + jwtParser.parseClaimsJws(token).getBody());
         return jwtParser.parseClaimsJws(token).getBody();
     }
 
