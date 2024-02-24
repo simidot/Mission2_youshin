@@ -49,11 +49,19 @@ public class UserController {
 
     // 비즈니스 계정으로 전환 신청
     @PostMapping("/{accountId}/business-request")
-    public BAResponse businessAccountRequest(
+    public BAResponse baRequest(
             @PathVariable("accountId") String accountId,
             @RequestBody BARequest requestDto
     ) {
-        return userService.registerBusinessAccount(accountId, requestDto);
+        return userService.registerBA(accountId, requestDto);
+    }
+
+    // 비즈니스 계정으로 전환 결과 확인
+    @GetMapping("/{accountId}/business-request")
+    public BAResponse baResultCheck(
+            @PathVariable("accountId") String accountId
+    ) {
+        return userService.baResultCheck(accountId);
     }
 }
 

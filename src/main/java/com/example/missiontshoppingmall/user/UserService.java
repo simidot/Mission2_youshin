@@ -77,16 +77,26 @@ public class UserService {
 
     // 사업자계정 등록 요청
     @Transactional
-    public BAResponse registerBusinessAccount(String accountId, BARequest dto) {
+    public BAResponse registerBA (String accountId, BARequest dto) {
         Optional<UserEntity> optionalUser = userRepository.findByAccountId(accountId);
         if (optionalUser.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         UserEntity foundUser = optionalUser.get();
         foundUser.setBusinessNumber(dto.getBusinessNumber());
         foundUser.setBusinessIsAllowed(false);
         foundUser = userRepository.save(foundUser);
 
+        return BAResponse.fromEntity(foundUser);
+    }
+
+    //사업자계정 등록결과 확인
+    public BAResponse baResultCheck(String accountId) {
+        Optional<UserEntity> optionalUser = userRepository.findByAccountId(accountId);
+        if (optionalUser.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        UserEntity foundUser = optionalUser.get();
         return BAResponse.fromEntity(foundUser);
     }
 
