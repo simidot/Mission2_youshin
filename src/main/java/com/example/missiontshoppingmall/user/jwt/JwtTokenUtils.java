@@ -16,6 +16,7 @@ import java.sql.Date;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -39,20 +40,24 @@ public class JwtTokenUtils { //JwtToken관련 서비스
                 .claims()
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(Date.from(now))
-                .setExpiration(Date.from(now.plusSeconds(36000L)));
+                .setExpiration(Date.from(now.plusSeconds(86400L))); //todo: 임시적인 시간 (줄여야한다)
+        jwtClaims.put("auth", userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList()));
 
         // jwt 발급
         return Jwts.builder()
                 .setClaims(jwtClaims)
                 .signWith(this.signingKey)
                 .compact(); //압축
-
     }
 
     // 정상적인 jwt인지 판단
     public boolean validate(String token) {
         try {
-            jwtParser.parseClaimsJws(token);
+            if (this.isNotExpired(token)) {
+                this.parseClaims(token);
+            }
             return true;
         } catch (Exception e) {
             log.warn("invalid jwt");
@@ -64,6 +69,14 @@ public class JwtTokenUtils { //JwtToken관련 서비스
     public Claims parseClaims(String token) {
 //        log.info("parseClaims:::" + jwtParser.parseClaimsJws(token).getBody());
         return jwtParser.parseClaimsJws(token).getBody();
+    }
+
+    // JWT가 만료된 토큰인지 확인해야 함.
+    public boolean isNotExpired(String token) {
+        if (Instant.now().isAfter(this.parseClaims(token).getExpiration().toInstant())) {
+            return false;
+        }
+        return true;
     }
 
 }
