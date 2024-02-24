@@ -1,9 +1,14 @@
 package com.example.missiontshoppingmall.user.entity;
 
 import com.example.missiontshoppingmall.BaseEntity;
+import com.example.missiontshoppingmall.usedGoods.entity.Suggestion;
+import com.example.missiontshoppingmall.usedGoods.entity.UsedGoods;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -40,4 +45,12 @@ public class UserEntity extends BaseEntity {
     private String businessNumber; //사업자 번호
     @Setter
     private Boolean businessIsAllowed; //사업자 허가 여부
+
+    // 연관관계
+    @OneToMany(mappedBy = "seller")
+    private List<UsedGoods> sellingList;
+
+    @OneToMany(mappedBy = "buyer")
+    private List<Suggestion> suggestionList;
+
 }
