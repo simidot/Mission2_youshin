@@ -1,5 +1,6 @@
 package com.example.missiontshoppingmall.user;
 
+import com.example.missiontshoppingmall.AuthenticationFacade;
 import com.example.missiontshoppingmall.user.entity.CustomUserDetails;
 import com.example.missiontshoppingmall.user.entity.UserEntity;
 import com.example.missiontshoppingmall.user.jwt.JwtRequestDto;
@@ -9,6 +10,7 @@ import com.example.missiontshoppingmall.user.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,6 +28,7 @@ public class CustomUserDetailsManager implements UserDetailsManager {
     private final JwtTokenUtils jwtTokenUtils;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final AuthenticationFacade facade;
 
     @Override
     public CustomUserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
@@ -97,6 +100,17 @@ public class CustomUserDetailsManager implements UserDetailsManager {
     @Override
     public boolean userExists(String userId) {
         return userRepository.existsByAccountId(userId);
+    }
+
+
+    // 로그인한 아이디와 해당 아이디가 같은지 확인하는 메서드
+    public void checkIdIsEqual(String accountId) {
+        String loginId = facade.getAuth().getName(); //현재 인증정보의 id name
+        // 다르면 예외처리
+        if (!accountId.equals(loginId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+        // 같으면 계속 이어서 감
     }
 
     @Override

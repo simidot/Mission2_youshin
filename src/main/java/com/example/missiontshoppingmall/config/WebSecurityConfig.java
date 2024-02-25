@@ -29,6 +29,8 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(
                         auth -> //로그인, 회원가입은 익명사용자만 요청 가능
                                 auth
+                                        .requestMatchers("/admin/**")
+                                        .hasAnyRole("ADMIN")
                                         .requestMatchers("/users/business-request", "/used-goods")
                                         .hasRole("ACTIVE")
                                         .anyRequest().permitAll()
@@ -45,8 +47,7 @@ public class WebSecurityConfig {
 //                                        .requestMatchers("/shopping-mall")
 //                                        .hasRole("BUSINESS")
 //                                        // 관리자 페이지는 관리자만 가능
-//                                        .requestMatchers("/admin/**")
-//                                        .hasAnyRole("ADMIN")
+
 //                                        .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->

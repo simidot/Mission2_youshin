@@ -44,9 +44,8 @@ public class UsedGoodsController {
     @PutMapping("/{usedGoodsId}")
     public UsedGoodsDto updateUsedGoods(
             @PathVariable("usedGoodsId") Long id,
-            @RequestBody UsedGoodsDto dto,
-            Authentication authentication
+            @RequestBody UsedGoodsDto dto
     ) {
-        return usedGoodsService.updateUsedGoods(id, dto, authentication.getName());
+        return usedGoodsService.updateUsedGoods(id, dto);
     }
 }

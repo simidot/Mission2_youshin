@@ -1,5 +1,6 @@
 package com.example.missiontshoppingmall.user;
 
+import com.example.missiontshoppingmall.AuthenticationFacade;
 import com.example.missiontshoppingmall.user.dto.request.BARequest;
 import com.example.missiontshoppingmall.user.dto.request.UserAdditionalInfoDto;
 import com.example.missiontshoppingmall.user.dto.request.UserRegisterDto;
@@ -48,14 +49,22 @@ public class UserService {
                 .build();
     }
 
-    // 추가 정보 입력 (인증관련 정보가 아니므로 그냥 UserService에서 메서드 구현하였다.)
-    @Transactional
-    public AdditionalInfo additionalInfo(String accountId, UserAdditionalInfoDto dto) {
+    // 아래에서 계속 반복되는 Optional에서 사용자 엔티티 반환 메서드
+    private UserEntity getFoundUser(String accountId) {
         Optional<UserEntity> optionalUser = userRepository.findByAccountId(accountId);
         if (optionalUser.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        UserEntity foundUser = optionalUser.get();
+        return optionalUser.get();
+    }
+
+    // 추가 정보 입력 (인증관련 정보가 아니므로 그냥 UserService에서 메서드 구현하였다.)
+    @Transactional
+    public AdditionalInfo additionalInfo(String accountId, UserAdditionalInfoDto dto) {
+
+        UserEntity foundUser = this.getFoundUser(accountId);
+        // 로그인한 아이디와 이 유저가 같은지 확인
+        manager.checkIdIsEqual(foundUser.getAccountId());
 
         // 하나라도 null이면 false 반환, 모두 null이 아니면 true 반환
         boolean dtoCheck = Stream.of(
@@ -78,11 +87,12 @@ public class UserService {
     // 사업자계정 등록 요청
     @Transactional
     public BAResponse registerBA (String accountId, BARequest dto) {
-        Optional<UserEntity> optionalUser = userRepository.findByAccountId(accountId);
-        if (optionalUser.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        UserEntity foundUser = optionalUser.get();
+        UserEntity foundUser = this.getFoundUser(accountId);
+
+        // 로그인한 아이디와 이 유저가 같은지 확인
+        manager.checkIdIsEqual(foundUser.getAccountId());
+
+        // 등록요청
         foundUser.setBusinessNumber(dto.getBusinessNumber());
         foundUser.setBusinessIsAllowed(false);
         foundUser = userRepository.save(foundUser);
@@ -92,11 +102,9 @@ public class UserService {
 
     //사업자계정 등록결과 확인
     public BAResponse baResultCheck(String accountId) {
-        Optional<UserEntity> optionalUser = userRepository.findByAccountId(accountId);
-        if (optionalUser.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        UserEntity foundUser = optionalUser.get();
+        UserEntity foundUser = this.getFoundUser(accountId);
+        // 로그인한 아이디와 이 유저가 같은지 확인
+        manager.checkIdIsEqual(foundUser.getAccountId());
         return BAResponse.fromEntity(foundUser);
     }
 

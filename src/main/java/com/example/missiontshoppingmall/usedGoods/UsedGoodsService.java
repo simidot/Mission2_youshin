@@ -28,6 +28,7 @@ public class UsedGoodsService {
     private final UserRepository userRepository;
     private final CustomUserDetailsManager manager;
 
+    // 중고물품 업로드
     public UsedGoodsDto uploadUsedGoods(String accountId, UsedGoodsDto dto) {
         Optional<UserEntity> optionalEntity = userRepository.findByAccountId(accountId);
         if (optionalEntity.isEmpty()) {
@@ -63,7 +64,7 @@ public class UsedGoodsService {
     // 중고거래 등록된 물품 단일조회
 
     // 중고거래 등록 물품 수정
-    public UsedGoodsDto updateUsedGoods(Long id, UsedGoodsDto dto, String accountId) {
+    public UsedGoodsDto updateUsedGoods(Long id, UsedGoodsDto dto) {
         Optional<UsedGoods> usedGoods = usedGoodsRepo.findById(id);
         if (usedGoods.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -71,11 +72,8 @@ public class UsedGoodsService {
         UsedGoods foundGoods = usedGoods.get();
 
         // 로그인한 아이디와 물품 등록 판매자가 다르면 unauthorized
-        String loginId = accountId;
         String sellerId = foundGoods.getSeller().getAccountId();
-        if (!sellerId.equals(loginId)) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-        }
+        manager.checkIdIsEqual(sellerId);
 
         foundGoods.setTitle(dto.getTitle());
         foundGoods.setDescription(dto.getDescription());
