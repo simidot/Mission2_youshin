@@ -9,12 +9,12 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class UserDto {
-    private String userId;
+    private String accountId;
     private String nickname;
 
     public static UserDto fromEntity(UserEntity entity) {
         return UserDto.builder()
-                .userId(entity.getAccountId())
+                .accountId(entity.getAccountId())
                 .nickname(entity.getNickname())
                 .build();
     }

@@ -5,10 +5,9 @@ import com.example.missiontshoppingmall.usedGoods.dto.request.UsedGoodsDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -24,13 +23,30 @@ public class UsedGoodsController {
             Authentication authentication,
             @RequestBody UsedGoodsDto dto
     ) {
-        log.info("authenticion.getname(): "+authentication.getName());
-        log.info("authorities:: "+authentication.getAuthorities().toString());
-        log.info("class: "+authentication.getAuthorities().getClass());
+        log.info("authenticion.getname(): " + authentication.getName());
+        log.info("authorities:: " + authentication.getAuthorities().toString());
         String accountId = authentication.getName();
 //        if (authentication.getAuthorities().contains("USER_ACTIVE")) {
-            return usedGoodsService.uploadUsedGoods(accountId, dto);
+        return usedGoodsService.uploadUsedGoods(accountId, dto);
 //        }
 //        return null;
+    }
+
+    // 중고거래 등록된 물품 전체조회
+    @GetMapping
+    public List<UsedGoodsDto> readAllGoods(Authentication authentication) {
+        return usedGoodsService.readAllGoods(authentication.getName());
+    }
+
+    // 중고거래 등록된 물품 단일조회
+
+    // 중고거래 등록 물품 수정
+    @PutMapping("/{usedGoodsId}")
+    public UsedGoodsDto updateUsedGoods(
+            @PathVariable("usedGoodsId") Long id,
+            @RequestBody UsedGoodsDto dto,
+            Authentication authentication
+    ) {
+        return usedGoodsService.updateUsedGoods(id, dto, authentication.getName());
     }
 }

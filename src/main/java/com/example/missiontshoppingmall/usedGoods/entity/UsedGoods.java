@@ -4,10 +4,7 @@ import com.example.missiontshoppingmall.BaseEntity;
 import com.example.missiontshoppingmall.user.entity.UserEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,17 +16,22 @@ import java.util.List;
 @NoArgsConstructor
 public class UsedGoods extends BaseEntity {
     @Column(nullable = false)
+    @Setter
     private String title;
 
     @Lob
+    @Setter
     private String description;
 
+    @Setter
     private String imageUrl;
 
     @Column(nullable = false)
+    @Setter
     private Integer minimumPrice;
 
     @Enumerated(EnumType.STRING)
+    @Setter
     private SaleStatus saleStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)

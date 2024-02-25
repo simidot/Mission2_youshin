@@ -28,7 +28,7 @@ public class CustomUserDetailsManager implements UserDetailsManager {
     private final UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+    public CustomUserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
         //repo에서 userId로 찾아오기
         Optional<UserEntity> optionalUser = userRepository.findByAccountId(userId);
         if (optionalUser.isEmpty()) {
@@ -38,7 +38,8 @@ public class CustomUserDetailsManager implements UserDetailsManager {
 
         UserEntity userEntity = optionalUser.get();
         //리턴을 UserDetails 형태로 한다
-        UserDetails userDetails = User.withUsername(userEntity.getAccountId())
+        CustomUserDetails userDetails = CustomUserDetails.builder()
+                .userId(userEntity.getAccountId())
                 .password(userEntity.getPassword())
                 .authorities(userEntity.getAuthority())
                 .build();

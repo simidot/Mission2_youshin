@@ -3,7 +3,6 @@ package com.example.missiontshoppingmall.usedGoods.dto.request;
 import com.example.missiontshoppingmall.usedGoods.dto.UserDto;
 import com.example.missiontshoppingmall.usedGoods.dto.SuggestionDto;
 import com.example.missiontshoppingmall.usedGoods.entity.SaleStatus;
-import com.example.missiontshoppingmall.usedGoods.entity.Suggestion;
 import com.example.missiontshoppingmall.usedGoods.entity.UsedGoods;
 import lombok.*;
 
