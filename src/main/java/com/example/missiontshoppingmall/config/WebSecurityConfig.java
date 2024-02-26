@@ -32,7 +32,7 @@ public class WebSecurityConfig {
                                         .requestMatchers("/admin/**")
                                         .hasAnyRole("ADMIN")
                                         .requestMatchers("/users/business-request", "/used-goods")
-                                        .hasRole("ACTIVE")
+                                        .hasAnyRole("ACTIVE", "BUSINESS")
                                         .anyRequest().permitAll()
 
 //                                        .requestMatchers("/users/login", "/users/register")

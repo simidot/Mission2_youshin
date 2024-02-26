@@ -29,11 +29,11 @@ public class AdminService {
         }
         UserEntity foundUser = optionalUser.get();
         // 신청자는 active상태
-        String authorities = "USER_ACTIVE";
+        String authorities = "ROLE_ACTIVE";
         // 관리자가 승인한 경우
         if (agreement.isBusinessAllowance()) {
             // 권한과, 사업자허가여부 속성을 변경&update
-            authorities = "USER_ACTIVE, USER_BUSINESS";
+            authorities = "ROLE_BUSINESS";
             foundUser.setBusinessIsAllowed(true);
             foundUser.setAuthority(authorities);
             userRepository.save(foundUser);
