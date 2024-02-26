@@ -1,6 +1,7 @@
 package com.example.missiontshoppingmall.usedGoods.repo;
 
 import com.example.missiontshoppingmall.usedGoods.entity.Suggestion;
+import com.example.missiontshoppingmall.usedGoods.entity.SuggestionStatus;
 import com.example.missiontshoppingmall.usedGoods.entity.UsedGoods;
 import com.example.missiontshoppingmall.user.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,5 +14,7 @@ public interface SuggestionRepo extends JpaRepository<Suggestion, Long> {
     List<Suggestion> findByBuyer(UserEntity buyer);
 
     List<Suggestion> findByUsedGoods(UsedGoods goods);
+
+    List<Suggestion> findByUsedGoodsAndSuggestionStatus(UsedGoods goods, SuggestionStatus status);
 
 }

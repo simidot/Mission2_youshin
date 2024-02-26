@@ -33,7 +33,22 @@ public class SuggestionController {
     }
 
     // 물품 구매 제안에 대한 수락 또는 거절
+    @PostMapping("/{suggestionId}/acceptance")
+    public SuggestionResponse acceptSuggestionsOrNot(
+            @PathVariable("usedGoodsId") Long usedGoodsId,
+            @PathVariable("suggestionId") Long suggestionId,
+            @RequestParam("acceptance") boolean acceptance
+    ) {
+        return suggestionService.acceptOrNot(usedGoodsId, suggestionId, acceptance);
+    }
 
     // 물품 구매 제안자가 구매 확정
-
+    @PostMapping("/{suggestionId}/purchase-confirm")
+    public SuggestionResponse confirmPurchase(
+            @PathVariable("usedGoodsId") Long usedGoodsId,
+            @PathVariable("suggestionId") Long suggestionId,
+            @RequestParam("confirmation") boolean confirmation
+    ) {
+        return suggestionService.confirmOrNot(usedGoodsId, suggestionId, confirmation);
+    }
 }

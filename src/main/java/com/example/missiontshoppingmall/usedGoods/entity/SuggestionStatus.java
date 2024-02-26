@@ -6,5 +6,7 @@ public enum SuggestionStatus {
     // 판매자가 제안 수락
     ACCEPTED,
     // 판매자가 제안 거절
-    REJECTED;
+    REJECTED,
+    // 제안 취소
+    CANCELED;
 }
