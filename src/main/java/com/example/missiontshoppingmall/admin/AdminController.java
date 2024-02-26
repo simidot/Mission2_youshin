@@ -1,6 +1,9 @@
 package com.example.missiontshoppingmall.admin;
 
 import com.example.missiontshoppingmall.admin.dto.BAManagement;
+import com.example.missiontshoppingmall.admin.dto.MallOpenManagement;
+import com.example.missiontshoppingmall.admin.dto.MallOpenResult;
+import com.example.missiontshoppingmall.shoppingMall.dto.MallOpenResponse;
 import com.example.missiontshoppingmall.user.dto.response.BAResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,4 +41,26 @@ public class AdminController {
         return adminService.findOneBARequest(accountId);
     }
 
+    // 개설신청된 쇼핑몰 목록 전체조회
+    @GetMapping("/shopping-mall")
+    public List<MallOpenResponse> allMallOpenRequests() {
+        return adminService.readAllOpenRequest();
+    }
+
+    // 개설신청된 쇼핑몰 목록 단일조회
+    @GetMapping("/shopping-mall/{mallId}")
+    public MallOpenResponse oneMallOpenRequest(
+            @PathVariable("mallId") Long id
+    ) {
+        return adminService.readOneOpenRequest(id);
+    }
+
+    // 개설신청된 쇼핑몰 허가/불허
+    @PostMapping("/shopping-mall/{mallId}/allowance")
+    public MallOpenResult allowMallOpen(
+            @PathVariable("mallId") Long id,
+            @RequestBody MallOpenManagement management
+            ) {
+        return adminService.allowOpenOrNot(id, management);
+    }
 }

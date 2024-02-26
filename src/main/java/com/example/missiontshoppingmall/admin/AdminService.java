@@ -2,6 +2,10 @@ package com.example.missiontshoppingmall.admin;
 
 import com.example.missiontshoppingmall.EntityFromOptional;
 import com.example.missiontshoppingmall.admin.dto.BAManagement;
+import com.example.missiontshoppingmall.admin.dto.MallOpenManagement;
+import com.example.missiontshoppingmall.admin.dto.MallOpenResult;
+import com.example.missiontshoppingmall.shoppingMall.dto.MallOpenResponse;
+import com.example.missiontshoppingmall.shoppingMall.entity.RequestType;
 import com.example.missiontshoppingmall.shoppingMall.entity.RunningStatus;
 import com.example.missiontshoppingmall.shoppingMall.entity.ShoppingMall;
 import com.example.missiontshoppingmall.shoppingMall.repo.ShoppingMallRepo;
@@ -14,6 +18,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -48,6 +54,7 @@ public class AdminService {
 
         // 반환타입을 맞춰 return
         return BAResponse.builder()
+                .id(foundUser.getId())
                 .accountId(accountId)
                 .authority(authorities)
                 .businessNumber(foundUser.getBusinessNumber())
@@ -71,4 +78,36 @@ public class AdminService {
         return BAResponse.fromEntity(foundUser);
     }
 
+    // 개설신청된 쇼핑몰 목록 전체조회
+    public List<MallOpenResponse> readAllOpenRequest() {
+        // 처음 신청할때에는 runningStatus가 READY이고,
+        // 이때 요청타입이 OPEN이며,
+        // openIsAllowed가 null일때 쇼핑몰 개설신청이다.
+        return mallRepo.findByRequestTypeAndRunningStatusAndOpenIsAllowedIsNull(RequestType.OPEN, RunningStatus.READY)
+                .stream()
+                .map(MallOpenResponse::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    // 개설신청된 쇼핑몰 목록 단일조회
+    public MallOpenResponse readOneOpenRequest(Long id) {
+        ShoppingMall mall = optional.getMall(id);
+        return MallOpenResponse.fromEntity(mall);
+    }
+
+    // 개설신청된 쇼핑몰 허가/불허
+    public MallOpenResult allowOpenOrNot(Long id, MallOpenManagement management) {
+        ShoppingMall mall = optional.getMall(id);
+        // 허가한 경우
+        if (management.isAllowed()) {
+            mall.setRunningStatus(RunningStatus.OPEN);
+            mall.setOpenIsAllowed(true);
+        } //불허한 경우
+        else {
+            mall.setOpenIsAllowed(false);
+            mall.setDeniedReason(management.getDeniedReason());
+        }
+        mallRepo.save(mall);
+        return MallOpenResult.fromEntity(mall);
+    }
 }

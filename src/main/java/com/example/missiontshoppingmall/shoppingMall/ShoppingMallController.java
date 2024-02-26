@@ -15,9 +15,8 @@ public class ShoppingMallController {
 
     // 쇼핑몰 개설
     // 사업자 사용자로 전환되며 준비중 상태의 쇼핑몰이 추가된 상태
-    @PostMapping("/{mallId}")
+    @PostMapping
     public MallOpenResponse openRequest(
-            @PathVariable("mallId") Long id,
             @RequestBody MallOpenRequest requestDto
     ) {
         return mallService.createOpenRequest(requestDto);
