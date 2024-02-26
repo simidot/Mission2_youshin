@@ -2,6 +2,7 @@ package com.example.missiontshoppingmall.usedGoods;
 
 import com.example.missiontshoppingmall.AuthenticationFacade;
 import com.example.missiontshoppingmall.usedGoods.dto.request.UsedGoodsDto;
+import com.example.missiontshoppingmall.usedGoods.dto.response.UsedGoodsWithoutSeller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -34,11 +35,17 @@ public class UsedGoodsController {
 
     // 중고거래 등록된 물품 전체조회
     @GetMapping
-    public List<UsedGoodsDto> readAllGoods(Authentication authentication) {
-        return usedGoodsService.readAllGoods(authentication.getName());
+    public List<UsedGoodsWithoutSeller> readAllGoods() {
+        return usedGoodsService.readAllGoods();
     }
 
     // 중고거래 등록된 물품 단일조회
+    @GetMapping("/{usedGoodsId}")
+    public UsedGoodsWithoutSeller readOneGoods(
+            @PathVariable("usedGoodsId") Long usedGoodsId
+    ) {
+        return usedGoodsService.readOneGoods(usedGoodsId);
+    }
 
     // 중고거래 등록 물품 수정
     @PutMapping("/{usedGoodsId}")

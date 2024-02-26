@@ -113,6 +113,11 @@ public class CustomUserDetailsManager implements UserDetailsManager {
         // 같으면 계속 이어서 감
     }
 
+    // 인증정보에서 UserEntity를 추출하는 메서드
+    public CustomUserDetails loadUserFromAuth() {
+        return this.loadUserByUsername(facade.getAuth().getName());
+    }
+
     @Override
     public void updateUser(UserDetails user) {
         throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED);

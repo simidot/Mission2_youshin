@@ -1,6 +1,7 @@
 package com.example.missiontshoppingmall.usedGoods;
 
 import com.example.missiontshoppingmall.usedGoods.dto.request.UsedGoodsDto;
+import com.example.missiontshoppingmall.usedGoods.dto.response.UsedGoodsWithoutSeller;
 import com.example.missiontshoppingmall.usedGoods.entity.SaleStatus;
 import com.example.missiontshoppingmall.usedGoods.entity.UsedGoods;
 import com.example.missiontshoppingmall.usedGoods.repo.SuggestionRepo;
@@ -41,31 +42,38 @@ public class UsedGoodsService {
                 .minimumPrice(dto.getMinimumPrice())
                 .imageUrl(dto.getImageUrl())
                 .saleStatus(SaleStatus.ON_SALE)
-                .seller(seller)
+                .seller(seller) // 판매자는 저장은 하지만, 실제로 조회시에는 보이지 않아야한다.
                 .build();
         newGoods = usedGoodsRepo.save(newGoods);
         return UsedGoodsDto.fromEntity(newGoods);
     }
 
-    // 중고거래 등록된 물품 전체조회
-    public List<UsedGoodsDto> readAllGoods(String accountId) {
-        log.info("readAllGoods: "+accountId);
-        CustomUserDetails user = manager.loadUserByUsername(accountId);
-        List<UsedGoodsDto> response = new ArrayList<>();
+    // 중고거래 등록된 물품 전체조회 (판매자 정보는 보이지 않아야 한다)
+    public List<UsedGoodsWithoutSeller> readAllGoods() {
+        CustomUserDetails user = manager.loadUserFromAuth();
+        List<UsedGoodsWithoutSeller> response = new ArrayList<>();
 //        if (user.getStringAuthorities().contains("ROLE_ACTIVE")) {
             List<UsedGoods> usedGoods = usedGoodsRepo.findAll();
             for (UsedGoods g : usedGoods) {
-                response.add(UsedGoodsDto.fromEntity(g));
+                response.add(UsedGoodsWithoutSeller.fromEntity(g));
 //            }
         }
         return response;
     }
 
     // 중고거래 등록된 물품 단일조회
+    public UsedGoodsWithoutSeller readOneGoods(Long usedGoodsId) {
+        Optional<UsedGoods> usedGoods = usedGoodsRepo.findById(usedGoodsId);
+        if (usedGoods.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        UsedGoods foundGoods = usedGoods.get();
+        return UsedGoodsWithoutSeller.fromEntity(foundGoods);
+    }
 
     // 중고거래 등록 물품 수정
-    public UsedGoodsDto updateUsedGoods(Long id, UsedGoodsDto dto) {
-        Optional<UsedGoods> usedGoods = usedGoodsRepo.findById(id);
+    public UsedGoodsDto updateUsedGoods(Long usedGoodsId, UsedGoodsDto dto) {
+        Optional<UsedGoods> usedGoods = usedGoodsRepo.findById(usedGoodsId);
         if (usedGoods.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
@@ -79,6 +87,7 @@ public class UsedGoodsService {
         foundGoods.setDescription(dto.getDescription());
         foundGoods.setMinimumPrice(dto.getMinimumPrice());
         foundGoods.setImageUrl(dto.getImageUrl());
+        usedGoodsRepo.save(foundGoods);
 
         return UsedGoodsDto.fromEntity(foundGoods);
     }
