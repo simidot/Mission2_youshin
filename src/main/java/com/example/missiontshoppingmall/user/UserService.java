@@ -1,6 +1,5 @@
 package com.example.missiontshoppingmall.user;
 
-import com.example.missiontshoppingmall.AuthenticationFacade;
 import com.example.missiontshoppingmall.EntityFromOptional;
 import com.example.missiontshoppingmall.user.dto.request.BARequest;
 import com.example.missiontshoppingmall.user.dto.request.UserAdditionalInfoDto;
@@ -15,10 +14,8 @@ import com.example.missiontshoppingmall.user.jwt.JwtResponseDto;
 import com.example.missiontshoppingmall.user.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 import java.util.stream.Stream;

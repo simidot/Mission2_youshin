@@ -35,14 +35,10 @@ public class UsedGoodsService {
 
     // 중고물품 업로드
     @Transactional
-    public UsedGoodsDto uploadUsedGoods(String accountId, UsedGoodsDto dto) {
+    public UsedGoodsDto uploadUsedGoods(UsedGoodsDto dto) {
         // todo: 고민인 것! authentication 정보 넘겨받아서 하는게 맞나!?
         //  인증정보관련은 CustomUSerDetails에서 모두 처리하는 것이 나을까?
-        Optional<UserEntity> optionalEntity = userRepository.findByAccountId(accountId);
-        if (optionalEntity.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-        }
-        UserEntity seller = optionalEntity.get();
+        UserEntity seller = manager.loadUserFromAuth();
         UsedGoods newGoods = UsedGoods.builder()
                 .title(dto.getTitle())
                 .description(dto.getDescription())

@@ -20,19 +20,7 @@ public class UsedGoodsWithoutSeller {
     private Integer minimumPrice;
     private SaleStatus saleStatus;
 
-    private List<SuggestionResponse> suggestionList = new ArrayList<>();
-
     public static UsedGoodsWithoutSeller fromEntity(UsedGoods entity) {
-//        List<SuggestionDto> suggestionDtoList = new ArrayList<>();
-//
-//        if (!entity.getSuggestionList().isEmpty()) {
-//            List<Suggestion> suggestions = entity.getSuggestionList();
-//            if (!suggestions.isEmpty()) {
-//                for (Suggestion s : suggestions) {
-//                    suggestionDtoList.add(SuggestionDto.fromEntity(s));
-//                }
-//            }
-//        }
 
         return UsedGoodsWithoutSeller.builder()
                 .id(entity.getId())
@@ -41,7 +29,6 @@ public class UsedGoodsWithoutSeller {
                 .minimumPrice(entity.getMinimumPrice())
                 .imageUrl(entity.getImageUrl())
                 .saleStatus(entity.getSaleStatus())
-//                .suggestionList(suggestionDtoList)
                 .build();
     }
 

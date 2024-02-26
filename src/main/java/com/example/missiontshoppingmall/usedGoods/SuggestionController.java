@@ -24,7 +24,7 @@ public class SuggestionController {
         return suggestionService.uploadSuggestion(usedGoodsId, dto);
     }
 
-    // 물품 구매 제안 조회
+    // 물품 구매 제안 조회 (Seller&Buyer)
     @GetMapping
     public List<SuggestionResponse> readSuggestions(
             @PathVariable("usedGoodsId") Long usedGoodsId
@@ -32,7 +32,7 @@ public class SuggestionController {
         return suggestionService.readSuggestions(usedGoodsId);
     }
 
-    // 물품 구매 제안에 대한 수락 또는 거절
+    // 물품 구매 제안에 대한 수락 또는 거절 (Seller)
     @PostMapping("/{suggestionId}/acceptance")
     public SuggestionResponse acceptSuggestionsOrNot(
             @PathVariable("usedGoodsId") Long usedGoodsId,
@@ -42,7 +42,9 @@ public class SuggestionController {
         return suggestionService.acceptOrNot(usedGoodsId, suggestionId, acceptance);
     }
 
-    // 물품 구매 제안자가 구매 확정
+    // TODO: 물품구매 제안자가 제안에 대한 전체조회도 가능하게 (?)
+
+    // 물품 구매 제안자가 구매 확정 (Buyer)
     @PostMapping("/{suggestionId}/purchase-confirm")
     public SuggestionResponse confirmPurchase(
             @PathVariable("usedGoodsId") Long usedGoodsId,

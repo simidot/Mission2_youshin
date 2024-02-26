@@ -21,11 +21,9 @@ public class UsedGoodsController {
     // 물품등록
     @PostMapping
     public UsedGoodsDto registerUsedGoods(
-            Authentication authentication,
             @RequestBody UsedGoodsDto dto
     ) {
-        String accountId = authentication.getName();
-        return usedGoodsService.uploadUsedGoods(accountId, dto);
+        return usedGoodsService.uploadUsedGoods(dto);
     }
 
     // 중고거래 등록된 물품 전체조회

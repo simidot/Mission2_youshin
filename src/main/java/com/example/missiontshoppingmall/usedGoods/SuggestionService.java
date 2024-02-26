@@ -3,10 +3,7 @@ package com.example.missiontshoppingmall.usedGoods;
 import com.example.missiontshoppingmall.EntityFromOptional;
 import com.example.missiontshoppingmall.usedGoods.dto.request.SuggestionDto;
 import com.example.missiontshoppingmall.usedGoods.dto.response.SuggestionResponse;
-import com.example.missiontshoppingmall.usedGoods.entity.PurchaseStatus;
-import com.example.missiontshoppingmall.usedGoods.entity.Suggestion;
-import com.example.missiontshoppingmall.usedGoods.entity.SuggestionStatus;
-import com.example.missiontshoppingmall.usedGoods.entity.UsedGoods;
+import com.example.missiontshoppingmall.usedGoods.entity.*;
 import com.example.missiontshoppingmall.usedGoods.repo.SuggestionRepo;
 import com.example.missiontshoppingmall.usedGoods.repo.UsedGoodsRepo;
 import com.example.missiontshoppingmall.user.CustomUserDetailsManager;
@@ -15,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
@@ -111,13 +109,16 @@ public class SuggestionService {
     // 물품 구매 제안자가 구매 확정
     // 구매확정시 구매제안 상태는 확정상태
     // 구매확정 > 물품 상태 판매완료 & 다른 구매제안 상태 거절로 바뀜
+    @Transactional
     public SuggestionResponse confirmOrNot(Long usedGoodsId, Long suggestionId, boolean confirmation) {
         // 1. 구매제안자인지 확인
         Suggestion suggestion = optional.getSuggestion(suggestionId);
         manager.checkIdIsEqual(suggestion.getBuyer().getAccountId());
 
+        UsedGoods usedGoods = optional.getUsedGoods(usedGoodsId);
         // 2. 구매제안자 의견에 따라 구매확정 or 구매확정 취소
         if (confirmation) {
+            // 구매확정시 해당 제안의 상태는 확정으로 변경.
             suggestion.setPurchaseStatus(PurchaseStatus.CONFIRMED);
             // 확정시 나머지 제안의 구매제안 상태를 모두 거절로 바꿈.
             List<Suggestion> suggestions = suggestionRepo.findByUsedGoodsAndSuggestionStatus(optional.getUsedGoods(usedGoodsId), SuggestionStatus.WAIT);
@@ -125,6 +126,8 @@ public class SuggestionService {
                     .forEach(sugg -> sugg.setSuggestionStatus(SuggestionStatus.REJECTED));
             suggestions.stream()
                     .forEach(sugg -> suggestionRepo.save(sugg));
+            // 구매확정시 대상 물품의 상태는 판매완료
+            usedGoods.setSaleStatus(SaleStatus.SOLD);
         } else {
             // 확정 취소시...? 이 구매제안자 PurchaseStatus를 구매확정 취소로 바꾸고, 구매제안도 cancelled로 바꿈
             suggestion.setPurchaseStatus(PurchaseStatus.CONFIRM_CANCEL);
@@ -132,6 +135,7 @@ public class SuggestionService {
             // 나머지 구매제안들은 이미 wait인 상태므로 굳이 바꿀 필요가 없다.
         }
         suggestionRepo.save(suggestion);
+        usedGoodsRepo.save(usedGoods);
         return SuggestionResponse.fromEntity(suggestion);
     }
 }

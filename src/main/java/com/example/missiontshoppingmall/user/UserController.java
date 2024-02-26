@@ -10,7 +10,6 @@ import com.example.missiontshoppingmall.user.jwt.JwtRequestDto;
 import com.example.missiontshoppingmall.user.jwt.JwtResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -49,7 +48,7 @@ public class UserController {
     }
 
     // 비즈니스 계정으로 전환 신청
-    @PostMapping("/{accountId}/business-request")
+    @PostMapping("/{accountId:.*}/business-request")
     public BAResponse baRequest(
             @PathVariable("accountId") String accountId,
             @RequestBody BARequest requestDto
@@ -58,7 +57,7 @@ public class UserController {
     }
 
     // 비즈니스 계정으로 전환 결과 확인
-    @GetMapping("/{accountId}/business-request")
+    @GetMapping("/{accountId:.*}/business-request")
     public BAResponse baResultCheck(
             @PathVariable("accountId") String accountId
     ) {
