@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
@@ -29,8 +30,20 @@ public class UsedGoodsService {
     private final UserRepository userRepository;
     private final CustomUserDetailsManager manager;
 
+    // 아래에서 계속 반복되는 Optional에서 중고물품 엔티티 반환 메서드
+    private UsedGoods getUsedGoods(Long usedGoodsId) {
+        Optional<UsedGoods> optionalUsedGoods = usedGoodsRepo.findById(usedGoodsId);
+        if (optionalUsedGoods.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return optionalUsedGoods.get();
+    }
+
     // 중고물품 업로드
+    @Transactional
     public UsedGoodsDto uploadUsedGoods(String accountId, UsedGoodsDto dto) {
+        // todo: 고민인 것! authentication 정보 넘겨받아서 하는게 맞나!?
+        //  인증정보관련은 CustomUSerDetails에서 모두 처리하는 것이 나을까?
         Optional<UserEntity> optionalEntity = userRepository.findByAccountId(accountId);
         if (optionalEntity.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
@@ -50,34 +63,24 @@ public class UsedGoodsService {
 
     // 중고거래 등록된 물품 전체조회 (판매자 정보는 보이지 않아야 한다)
     public List<UsedGoodsWithoutSeller> readAllGoods() {
-        CustomUserDetails user = manager.loadUserFromAuth();
         List<UsedGoodsWithoutSeller> response = new ArrayList<>();
-//        if (user.getStringAuthorities().contains("ROLE_ACTIVE")) {
-            List<UsedGoods> usedGoods = usedGoodsRepo.findAll();
-            for (UsedGoods g : usedGoods) {
-                response.add(UsedGoodsWithoutSeller.fromEntity(g));
-//            }
+        List<UsedGoods> usedGoods = usedGoodsRepo.findAll();
+        for (UsedGoods g : usedGoods) {
+            response.add(UsedGoodsWithoutSeller.fromEntity(g));
         }
         return response;
     }
 
     // 중고거래 등록된 물품 단일조회
     public UsedGoodsWithoutSeller readOneGoods(Long usedGoodsId) {
-        Optional<UsedGoods> usedGoods = usedGoodsRepo.findById(usedGoodsId);
-        if (usedGoods.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        UsedGoods foundGoods = usedGoods.get();
+        UsedGoods foundGoods = this.getUsedGoods(usedGoodsId);
         return UsedGoodsWithoutSeller.fromEntity(foundGoods);
     }
 
     // 중고거래 등록 물품 수정
+    @Transactional
     public UsedGoodsDto updateUsedGoods(Long usedGoodsId, UsedGoodsDto dto) {
-        Optional<UsedGoods> usedGoods = usedGoodsRepo.findById(usedGoodsId);
-        if (usedGoods.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        UsedGoods foundGoods = usedGoods.get();
+        UsedGoods foundGoods = this.getUsedGoods(usedGoodsId);
 
         // 로그인한 아이디와 물품 등록 판매자가 다르면 unauthorized
         String sellerId = foundGoods.getSeller().getAccountId();
@@ -92,6 +95,13 @@ public class UsedGoodsService {
         return UsedGoodsDto.fromEntity(foundGoods);
     }
 
+    // 중고거래 등록한 물품 삭제
+    @Transactional
+    public void deleteUsedGoods(Long usedGoodsId) {
+        UsedGoods foundGoods = this.getUsedGoods(usedGoodsId);
+        manager.checkIdIsEqual(foundGoods.getSeller().getAccountId());
+        usedGoodsRepo.delete(foundGoods);
+    }
 
 
 }

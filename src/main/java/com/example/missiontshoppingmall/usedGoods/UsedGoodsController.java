@@ -24,13 +24,8 @@ public class UsedGoodsController {
             Authentication authentication,
             @RequestBody UsedGoodsDto dto
     ) {
-        log.info("authenticion.getname(): " + authentication.getName());
-        log.info("authorities:: " + authentication.getAuthorities().toString());
         String accountId = authentication.getName();
-//        if (authentication.getAuthorities().contains("USER_ACTIVE")) {
         return usedGoodsService.uploadUsedGoods(accountId, dto);
-//        }
-//        return null;
     }
 
     // 중고거래 등록된 물품 전체조회
@@ -55,4 +50,14 @@ public class UsedGoodsController {
     ) {
         return usedGoodsService.updateUsedGoods(id, dto);
     }
+
+    // 중고거래 등록한 물품 삭제
+    @DeleteMapping("/{usedGoodsId}")
+    public String deleteUsedGoods(
+            @PathVariable("usedGoodsId") Long id
+    ) {
+        usedGoodsService.deleteUsedGoods(id);
+        return "중고물품 삭제 완료";
+    }
+
 }
