@@ -19,6 +19,7 @@ import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Slf4j
@@ -113,9 +114,25 @@ public class CustomUserDetailsManager implements UserDetailsManager {
         // 같으면 계속 이어서 감
     }
 
+    // 로그인한 아이디와 해당 아이디가 같은지 확인하는 메서드
+    public void checkIdIsNotEqual(String accountId) {
+        String loginId = facade.getAuth().getName(); //현재 인증정보의 id name
+        // 다르면 예외처리
+        if (accountId.equals(loginId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+        // 같으면 계속 이어서 감
+    }
+
     // 인증정보에서 UserEntity를 추출하는 메서드
-    public CustomUserDetails loadUserFromAuth() {
-        return this.loadUserByUsername(facade.getAuth().getName());
+    public UserEntity loadUserFromAuth() {
+        //repo에서 userId로 찾아오기
+        Optional<UserEntity> optionalUser = userRepository.findByAccountId(facade.getAuth().getName());
+        if (optionalUser.isEmpty()) {
+            log.info("loadUserFromAuth : not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return optionalUser.get();
     }
 
     @Override

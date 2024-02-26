@@ -1,5 +1,6 @@
-package com.example.missiontshoppingmall.usedGoods.dto;
+package com.example.missiontshoppingmall.usedGoods.dto.request;
 
+import com.example.missiontshoppingmall.usedGoods.dto.UserDto;
 import com.example.missiontshoppingmall.usedGoods.entity.PurchaseStatus;
 import com.example.missiontshoppingmall.usedGoods.entity.Suggestion;
 import com.example.missiontshoppingmall.usedGoods.entity.SuggestionStatus;
@@ -11,7 +12,6 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class SuggestionDto {
-    private Long suggestionId;
     private String suggestionMessage;
     private SuggestionStatus suggestionStatus;
     private PurchaseStatus purchaseStatus;
@@ -19,7 +19,6 @@ public class SuggestionDto {
 
     public static SuggestionDto fromEntity(Suggestion entity) {
         return SuggestionDto.builder()
-                .suggestionId(entity.getId())
                 .suggestionMessage(entity.getSuggestionMessage())
                 .suggestionStatus(entity.getSuggestionStatus())
                 .purchaseStatus(entity.getPurchaseStatus())

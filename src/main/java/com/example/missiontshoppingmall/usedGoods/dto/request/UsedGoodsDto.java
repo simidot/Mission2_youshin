@@ -1,7 +1,7 @@
 package com.example.missiontshoppingmall.usedGoods.dto.request;
 
 import com.example.missiontshoppingmall.usedGoods.dto.UserDto;
-import com.example.missiontshoppingmall.usedGoods.dto.SuggestionDto;
+import com.example.missiontshoppingmall.usedGoods.dto.response.SuggestionResponse;
 import com.example.missiontshoppingmall.usedGoods.entity.SaleStatus;
 import com.example.missiontshoppingmall.usedGoods.entity.UsedGoods;
 import lombok.*;
@@ -22,7 +22,7 @@ public class UsedGoodsDto {
     private SaleStatus saleStatus;
 
     private UserDto seller; //seller
-    private List<SuggestionDto> suggestionList = new ArrayList<>();
+    private List<SuggestionResponse> suggestionList = new ArrayList<>();
 
     public static UsedGoodsDto fromEntity(UsedGoods entity) {
 //        List<SuggestionDto> suggestionDtoList = new ArrayList<>();

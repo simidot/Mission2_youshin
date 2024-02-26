@@ -1,5 +1,6 @@
 package com.example.missiontshoppingmall.usedGoods;
 
+import com.example.missiontshoppingmall.EntityFromOptional;
 import com.example.missiontshoppingmall.usedGoods.dto.request.UsedGoodsDto;
 import com.example.missiontshoppingmall.usedGoods.dto.response.UsedGoodsWithoutSeller;
 import com.example.missiontshoppingmall.usedGoods.entity.SaleStatus;
@@ -29,15 +30,8 @@ public class UsedGoodsService {
     private final SuggestionRepo suggestionRepo;
     private final UserRepository userRepository;
     private final CustomUserDetailsManager manager;
+    private final EntityFromOptional optional;
 
-    // 아래에서 계속 반복되는 Optional에서 중고물품 엔티티 반환 메서드
-    private UsedGoods getUsedGoods(Long usedGoodsId) {
-        Optional<UsedGoods> optionalUsedGoods = usedGoodsRepo.findById(usedGoodsId);
-        if (optionalUsedGoods.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        return optionalUsedGoods.get();
-    }
 
     // 중고물품 업로드
     @Transactional
@@ -73,14 +67,14 @@ public class UsedGoodsService {
 
     // 중고거래 등록된 물품 단일조회
     public UsedGoodsWithoutSeller readOneGoods(Long usedGoodsId) {
-        UsedGoods foundGoods = this.getUsedGoods(usedGoodsId);
+        UsedGoods foundGoods = optional.getUsedGoods(usedGoodsId);
         return UsedGoodsWithoutSeller.fromEntity(foundGoods);
     }
 
     // 중고거래 등록 물품 수정
     @Transactional
     public UsedGoodsDto updateUsedGoods(Long usedGoodsId, UsedGoodsDto dto) {
-        UsedGoods foundGoods = this.getUsedGoods(usedGoodsId);
+        UsedGoods foundGoods = optional.getUsedGoods(usedGoodsId);
 
         // 로그인한 아이디와 물품 등록 판매자가 다르면 unauthorized
         String sellerId = foundGoods.getSeller().getAccountId();
@@ -98,10 +92,8 @@ public class UsedGoodsService {
     // 중고거래 등록한 물품 삭제
     @Transactional
     public void deleteUsedGoods(Long usedGoodsId) {
-        UsedGoods foundGoods = this.getUsedGoods(usedGoodsId);
+        UsedGoods foundGoods = optional.getUsedGoods(usedGoodsId);
         manager.checkIdIsEqual(foundGoods.getSeller().getAccountId());
         usedGoodsRepo.delete(foundGoods);
     }
-
-
 }

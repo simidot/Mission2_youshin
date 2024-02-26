@@ -1,6 +1,7 @@
 package com.example.missiontshoppingmall.user;
 
 import com.example.missiontshoppingmall.AuthenticationFacade;
+import com.example.missiontshoppingmall.EntityFromOptional;
 import com.example.missiontshoppingmall.user.dto.request.BARequest;
 import com.example.missiontshoppingmall.user.dto.request.UserAdditionalInfoDto;
 import com.example.missiontshoppingmall.user.dto.request.UserRegisterDto;
@@ -28,6 +29,7 @@ import java.util.stream.Stream;
 public class UserService {
     private final UserRepository userRepository;
     private final CustomUserDetailsManager manager;
+    private final EntityFromOptional optional;
 
     public JwtResponseDto userLogin(JwtRequestDto dto) {
         return manager.userLogin(dto);
@@ -49,20 +51,13 @@ public class UserService {
                 .build();
     }
 
-    // 아래에서 계속 반복되는 Optional에서 사용자 엔티티 반환 메서드
-    private UserEntity getFoundUser(String accountId) {
-        Optional<UserEntity> optionalUser = userRepository.findByAccountId(accountId);
-        if (optionalUser.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        return optionalUser.get();
-    }
+
 
     // 추가 정보 입력 (인증관련 정보가 아니므로 그냥 UserService에서 메서드 구현하였다.)
     @Transactional
     public AdditionalInfo additionalInfo(String accountId, UserAdditionalInfoDto dto) {
 
-        UserEntity foundUser = this.getFoundUser(accountId);
+        UserEntity foundUser = optional.getFoundUser(accountId);
         // 로그인한 아이디와 이 유저가 같은지 확인
         manager.checkIdIsEqual(foundUser.getAccountId());
 
@@ -87,7 +82,7 @@ public class UserService {
     // 사업자계정 등록 요청
     @Transactional
     public BAResponse registerBA (String accountId, BARequest dto) {
-        UserEntity foundUser = this.getFoundUser(accountId);
+        UserEntity foundUser = optional.getFoundUser(accountId);
 
         // 로그인한 아이디와 이 유저가 같은지 확인
         manager.checkIdIsEqual(foundUser.getAccountId());
@@ -102,7 +97,7 @@ public class UserService {
 
     //사업자계정 등록결과 확인
     public BAResponse baResultCheck(String accountId) {
-        UserEntity foundUser = this.getFoundUser(accountId);
+        UserEntity foundUser = optional.getFoundUser(accountId);
         // 로그인한 아이디와 이 유저가 같은지 확인
         manager.checkIdIsEqual(foundUser.getAccountId());
         return BAResponse.fromEntity(foundUser);

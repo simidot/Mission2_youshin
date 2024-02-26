@@ -9,6 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class BAResponse {
+    private Long id;
     private String accountId;
     private String authority;
     private String businessNumber;
@@ -16,6 +17,7 @@ public class BAResponse {
 
     public static BAResponse fromEntity(UserEntity entity) {
         return BAResponse.builder()
+                .id(entity.getId())
                 .accountId(entity.getAccountId())
                 .authority(entity.getAuthority())
                 .businessIsAllowed(entity.getBusinessIsAllowed())

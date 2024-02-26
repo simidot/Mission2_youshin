@@ -1,6 +1,5 @@
 package com.example.missiontshoppingmall.usedGoods.dto.response;
 
-import com.example.missiontshoppingmall.usedGoods.dto.SuggestionDto;
 import com.example.missiontshoppingmall.usedGoods.entity.SaleStatus;
 import com.example.missiontshoppingmall.usedGoods.entity.UsedGoods;
 import lombok.*;
@@ -14,13 +13,14 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class UsedGoodsWithoutSeller {
+    private Long id;
     private String title;
     private String description;
     private String imageUrl;
     private Integer minimumPrice;
     private SaleStatus saleStatus;
 
-    private List<SuggestionDto> suggestionList = new ArrayList<>();
+    private List<SuggestionResponse> suggestionList = new ArrayList<>();
 
     public static UsedGoodsWithoutSeller fromEntity(UsedGoods entity) {
 //        List<SuggestionDto> suggestionDtoList = new ArrayList<>();
@@ -35,6 +35,7 @@ public class UsedGoodsWithoutSeller {
 //        }
 
         return UsedGoodsWithoutSeller.builder()
+                .id(entity.getId())
                 .title(entity.getTitle())
                 .description(entity.getDescription())
                 .minimumPrice(entity.getMinimumPrice())
@@ -43,4 +44,5 @@ public class UsedGoodsWithoutSeller {
 //                .suggestionList(suggestionDtoList)
                 .build();
     }
+
 }
