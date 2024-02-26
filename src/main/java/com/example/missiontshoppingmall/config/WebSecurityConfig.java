@@ -38,12 +38,12 @@ public class WebSecurityConfig {
                                         // 추가정보 입력은 inactive만 가능
                                         .requestMatchers("/users/{accountId}/additional-info")
                                         .hasAnyRole("INACTIVE")
-                                        // 중고거래, 쇼핑몰 서비스 이용 active, business만 가능
+                                        // 중고거래, 비즈니스 계정 신청/확인, 쇼핑몰 서비스 이용 active, business만 가능
                                         .requestMatchers("/users/**", "/used-goods/**")
                                         .hasAnyRole("ACTIVE", "BUSINESS")
                                         // 쇼핑몰 운영 서비스는 business회원만 가능
-                                        .requestMatchers("/shopping-mall")
-                                        .hasRole("BUSINESS")
+                                        .requestMatchers("/shopping-mall/**")
+                                        .hasAnyRole("ACTIVE", "BUSINESS", "ADMIN")
                                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->

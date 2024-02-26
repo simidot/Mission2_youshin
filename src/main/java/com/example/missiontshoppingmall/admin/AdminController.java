@@ -16,7 +16,7 @@ public class AdminController {
     private final AdminService adminService;
 
     // 관리자의 사업자 전환신청 거절/수락 기능
-    @PostMapping("/business/{accountId}")
+    @PostMapping("/business/{accountId:.*}")
     public BAResponse manageBusinessAccount(
             @PathVariable("accountId") String accountId,
             @RequestBody BAManagement agreement

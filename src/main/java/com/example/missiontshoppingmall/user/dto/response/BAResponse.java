@@ -1,5 +1,6 @@
 package com.example.missiontshoppingmall.user.dto.response;
 
+import com.example.missiontshoppingmall.shoppingMall.entity.RunningStatus;
 import com.example.missiontshoppingmall.user.entity.UserEntity;
 import lombok.*;
 
