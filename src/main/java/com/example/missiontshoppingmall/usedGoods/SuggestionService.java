@@ -12,7 +12,15 @@ import com.example.missiontshoppingmall.user.CustomUserDetailsManager;
 import com.example.missiontshoppingmall.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -30,13 +38,14 @@ public class SuggestionService {
     public SuggestionResponse uploadSuggestion(Long usedGoodsId, SuggestionDto dto) {
         // usedGoodsId로 해당 물품을 찾고, 해당물품의 Seller와 같지 않아야 제안이 가능하다.
         UsedGoods foundGoods = optional.getUsedGoods(usedGoodsId);
+        log.info("과연: "+foundGoods.getId());
         manager.checkIdIsNotEqual(foundGoods.getSeller().getAccountId()); // 같을시 예외발생함
 
         // 구매제안 등록하는 사람 추출
         UserEntity buyer = manager.loadUserFromAuth();
 
         Suggestion newSuggestion = Suggestion.builder()
-                .usedProduct(foundGoods)
+                .usedGoods(foundGoods)
                 .suggestionMessage(dto.getSuggestionMessage())
                 .suggestionStatus(SuggestionStatus.WAIT)
                 .buyer(buyer)
@@ -50,6 +59,33 @@ public class SuggestionService {
     // 물품 등록한 사용자와 제안등록 사용자만 조회 가능
     // 제안등록자는 자신의 제안만 확인 가능
     // 물품등록자는 모든 제안 확인 가능
+    public List<SuggestionResponse> readSuggestions(Long usedGoodsId) {
+        UsedGoods foundGoods = optional.getUsedGoods(usedGoodsId);
+        UserEntity loginUser = manager.loadUserFromAuth();
+
+        if (loginUser.equals(foundGoods.getSeller())) {
+            log.info("중고물품 등록자가 조회합니다");
+            return suggestionRepo.findByUsedGoods(foundGoods).stream()
+                    .map(SuggestionResponse::fromEntity)
+                    .peek(response -> log.info("SuggestionList:: " + response))
+                    .collect(Collectors.toList());
+        } else {
+            List<Suggestion> suggestions = foundGoods.getSuggestionList()
+                    .stream()
+                    .filter(suggestion -> loginUser.equals(suggestion.getBuyer()))
+
+                    .peek(suggestion -> log.info("중고물품 구매 제안자가 조회합니다."))
+                    .collect(Collectors.toList());
+            if (suggestions.isEmpty()) {
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "제안조회 권한이 없습니다.");
+            }
+            return suggestions.stream()
+                    .map(SuggestionResponse::fromEntity)
+                    .peek(response -> log.info("SuggestionList:: "+response))
+                    .collect(Collectors.toList());
+        }
+    }
+
 
     // 물품 구매 제안에 대한 수락 또는 거절
     // 물품등록자는 수락/거절 > 구매제안 상태 수락/거절로 바뀜

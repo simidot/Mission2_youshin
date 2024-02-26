@@ -40,7 +40,7 @@ public class UserController {
     }
 
     // 회원 추가정보 입력 (입력 시 ACTIVE USER로 자동변환)
-    @PostMapping("/{accountId}/additional-info")
+    @PostMapping("/{accountId:.*}/additional-info")
     public AdditionalInfo registerAdditionalInfo(
             @PathVariable("accountId") String id,
             @RequestBody UserAdditionalInfoDto dto

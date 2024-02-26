@@ -24,7 +24,7 @@ public class Suggestion extends BaseEntity {
     private PurchaseStatus purchaseStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private UsedGoods usedProduct;
+    private UsedGoods usedGoods;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private UserEntity buyer; //buyer

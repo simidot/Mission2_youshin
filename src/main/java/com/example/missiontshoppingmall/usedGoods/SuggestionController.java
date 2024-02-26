@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @Slf4j
 @RequiredArgsConstructor
@@ -23,7 +25,12 @@ public class SuggestionController {
     }
 
     // 물품 구매 제안 조회
-//    @GetMapping
+    @GetMapping
+    public List<SuggestionResponse> readSuggestions(
+            @PathVariable("usedGoodsId") Long usedGoodsId
+    ) {
+        return suggestionService.readSuggestions(usedGoodsId);
+    }
 
     // 물품 구매 제안에 대한 수락 또는 거절
 

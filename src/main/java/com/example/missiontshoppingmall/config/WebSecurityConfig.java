@@ -29,26 +29,22 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(
                         auth -> //로그인, 회원가입은 익명사용자만 요청 가능
                                 auth
+                                        // 관리자 페이지는 관리자만 가능
                                         .requestMatchers("/admin/**")
                                         .hasAnyRole("ADMIN")
-                                        .requestMatchers("/users/business-request", "/used-goods")
+                                        // 로그인과 회원가입은 익명 사용자만 가능
+                                        .requestMatchers("/users/login", "/users/register")
+                                        .anonymous()
+                                        // 추가정보 입력은 inactive만 가능
+                                        .requestMatchers("/users/{accountId}/additional-info")
+                                        .hasAnyRole("INACTIVE")
+                                        // 중고거래, 쇼핑몰 서비스 이용 active, business만 가능
+                                        .requestMatchers("/users/**", "/used-goods/**")
                                         .hasAnyRole("ACTIVE", "BUSINESS")
-                                        .anyRequest().permitAll()
-
-//                                        .requestMatchers("/users/login", "/users/register")
-//                                        .anonymous()
-//                                        // 추가정보 입력은 inactive만 가능
-//                                        .requestMatchers("/users/additional-info")
-//                                        .hasAnyRole("INACTIVE", "ACTIVE")
-//                                        // 중고거래, 쇼핑몰 서비스 이용 active, business만 가능
-//                                        .requestMatchers("/users/business-request","/used-goods")
-//                                        .hasRole("ACTIVE")
-//                                        // 쇼핑몰 운영 서비스는 business회원만 가능
-//                                        .requestMatchers("/shopping-mall")
-//                                        .hasRole("BUSINESS")
-//                                        // 관리자 페이지는 관리자만 가능
-
-//                                        .anyRequest().authenticated()
+                                        // 쇼핑몰 운영 서비스는 business회원만 가능
+                                        .requestMatchers("/shopping-mall")
+                                        .hasRole("BUSINESS")
+                                        .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
