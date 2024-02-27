@@ -2,10 +2,7 @@ package com.example.missiontshoppingmall.shoppingMall.entity;
 
 import com.example.missiontshoppingmall.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -15,17 +12,24 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 public class Item extends BaseEntity {
+    @Setter
     private String name; //상품이름
+    @Setter
     private String image; //상품 이미지 url
     @Lob
+    @Setter
     private String description;
     //상품 중분류
+    @Setter
     private String mediumCategory;
     //상품 소분류
+    @Setter
     private String smallCategory;
     //재고
+    @Setter
     private Integer stock;
     //가격
+    @Setter
     private Integer price;
 
     @ManyToOne(fetch = FetchType.LAZY)
