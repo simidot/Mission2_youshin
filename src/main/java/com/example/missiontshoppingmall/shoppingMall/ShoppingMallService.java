@@ -2,14 +2,8 @@ package com.example.missiontshoppingmall.shoppingMall;
 
 import com.example.missiontshoppingmall.EntityFromOptional;
 import com.example.missiontshoppingmall.admin.dto.MallOpenResult;
-import com.example.missiontshoppingmall.shoppingMall.dto.MallCloseRequest;
-import com.example.missiontshoppingmall.shoppingMall.dto.MallCloseResponse;
-import com.example.missiontshoppingmall.shoppingMall.dto.MallOpenRequest;
-import com.example.missiontshoppingmall.shoppingMall.dto.MallOpenResponse;
-import com.example.missiontshoppingmall.shoppingMall.entity.Allowance;
-import com.example.missiontshoppingmall.shoppingMall.entity.RequestType;
-import com.example.missiontshoppingmall.shoppingMall.entity.RunningStatus;
-import com.example.missiontshoppingmall.shoppingMall.entity.ShoppingMall;
+import com.example.missiontshoppingmall.shoppingMall.dto.*;
+import com.example.missiontshoppingmall.shoppingMall.entity.*;
 import com.example.missiontshoppingmall.shoppingMall.repo.ShoppingMallRepo;
 import com.example.missiontshoppingmall.user.CustomUserDetailsManager;
 import com.example.missiontshoppingmall.user.entity.UserEntity;
@@ -19,8 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -117,4 +113,31 @@ public class ShoppingMallService {
         mallRepo.save(foundMall);
         return MallCloseResponse.fromEntity(foundMall);
     }
+
+    // 쇼핑몰 전체 조회
+    public List<MallInfoDto> readAllMalls() {
+        return mallRepo.findByRunningStatusOrderByUpdatedAtDesc(RunningStatus.OPEN)
+                .stream()
+                .map(MallInfoDto::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    // 쇼핑몰 검색 (카테고리에 따라서)
+    public List<MallInfoDto> searchMalls(String q, String criteria) {
+        List<ShoppingMall> malls = new ArrayList<>();
+        // mname은 쇼핑몰 이름으로 검색
+        if (criteria.equals("mname")) {
+            malls = mallRepo.findByNameContainingIgnoreCaseAndRunningStatus(q, RunningStatus.OPEN);
+        } // cat은 쇼핑몰 대분류로 검색
+        else if (criteria.equals("cat")) {
+            malls = mallRepo.findByLargeCategoryAndRunningStatus(LargeCategory.valueOf(q), RunningStatus.OPEN);
+        }
+        // 둘다 아니면 bad request
+        else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        return malls.stream().map(MallInfoDto::fromEntity)
+                .collect(Collectors.toList());
+    }
+
 }

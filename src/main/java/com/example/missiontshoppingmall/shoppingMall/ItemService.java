@@ -4,12 +4,15 @@ import com.example.missiontshoppingmall.EntityFromOptional;
 import com.example.missiontshoppingmall.shoppingMall.dto.ItemRequest;
 import com.example.missiontshoppingmall.shoppingMall.dto.ItemResponse;
 import com.example.missiontshoppingmall.shoppingMall.entity.Item;
+import com.example.missiontshoppingmall.shoppingMall.entity.RunningStatus;
 import com.example.missiontshoppingmall.shoppingMall.entity.ShoppingMall;
 import com.example.missiontshoppingmall.shoppingMall.repo.ItemRepository;
 import com.example.missiontshoppingmall.user.CustomUserDetailsManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @Slf4j
@@ -24,6 +27,12 @@ public class ItemService {
         // 로그인사용자가 쇼핑몰 주인인지 확인
         ShoppingMall mall = optional.getMall(mallId);
         manager.checkIdIsEqual(mall.getOwner().getAccountId());
+
+        // 쇼핑몰이 OPEN인지 확인
+        if (!mall.getRunningStatus().equals(RunningStatus.OPEN)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+
         Item newItem = Item.builder()
                 .name(dto.getName())
                 .image(dto.getImage())
@@ -40,8 +49,13 @@ public class ItemService {
 
     // 상품 수정
     public ItemResponse updateItem(Long mallId, Long itemId, ItemRequest dto) {
-        // 쇼핑몰 주인인지 확인
-        manager.checkIdIsNotEqual(optional.getMall(mallId).getOwner().getAccountId());
+        // 로그인사용자가 쇼핑몰 주인인지 확인
+        ShoppingMall mall = optional.getMall(mallId);
+        manager.checkIdIsEqual(mall.getOwner().getAccountId());
+        // 쇼핑몰이 OPEN인지 확인
+        if (!mall.getRunningStatus().equals(RunningStatus.OPEN)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
         // 상품 찾기
         Item foundItem = optional.getItem(itemId);
         log.info("foundItem:: "+foundItem.getName());
@@ -59,8 +73,13 @@ public class ItemService {
 
     // 상품 삭제
     public void deleteItem(Long mallId, Long itemId) {
-        // 쇼핑몰 주인인지 확인
-        manager.checkIdIsEqual(optional.getMall(mallId).getOwner().getAccountId());
+        // 로그인사용자가 쇼핑몰 주인인지 확인
+        ShoppingMall mall = optional.getMall(mallId);
+        manager.checkIdIsEqual(mall.getOwner().getAccountId());
+        // 쇼핑몰이 OPEN인지 확인
+        if (!mall.getRunningStatus().equals(RunningStatus.OPEN)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
         // 상품 찾기
         Item foundItem = optional.getItem(itemId);
         // 상품 삭제

@@ -41,4 +41,6 @@ public class ItemController {
         itemService.deleteItem(mallId, itemId);
         return "상품 삭제 완료";
     }
+
+
 }

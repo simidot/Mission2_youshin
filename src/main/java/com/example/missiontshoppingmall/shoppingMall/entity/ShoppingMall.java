@@ -21,6 +21,7 @@ public class ShoppingMall extends BaseEntity {
 
     //쇼핑몰 카테고리 (대분류)
     @Setter
+    @Enumerated(EnumType.STRING)
     private LargeCategory largeCategory;
 
     //쇼핑몰 운영상태
