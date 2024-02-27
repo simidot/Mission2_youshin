@@ -1,6 +1,7 @@
 package com.example.missiontshoppingmall.shoppingMall;
 
 import com.example.missiontshoppingmall.EntityFromOptional;
+import com.example.missiontshoppingmall.shoppingMall.dto.ItemInfoDto;
 import com.example.missiontshoppingmall.shoppingMall.dto.ItemRequest;
 import com.example.missiontshoppingmall.shoppingMall.dto.ItemResponse;
 import com.example.missiontshoppingmall.shoppingMall.entity.Item;
@@ -13,6 +14,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -84,6 +89,33 @@ public class ItemService {
         Item foundItem = optional.getItem(itemId);
         // 상품 삭제
         itemRepository.delete(foundItem);
+    }
+
+    // 상품 검색 (이름, 가격범위 기준으로 검색)
+    public List<ItemInfoDto> searchItem(Long mallId, String q, String category) {
+        // mall이 있는 몰인지 확인
+        ShoppingMall foundMall = optional.getMall(mallId);
+
+        List<Item> items = new ArrayList<>();
+        // category가 iname이면 상품이름으로 검색
+        if (category.equals("iname")) {
+            items = itemRepository.findByShoppingMallAndNameContainingIgnoreCase(foundMall, q);
+        }
+        // categroy가 price면 가격범위 기준으로 검색
+        // 가격범위일때는 (최소가격, 최대가격)이 String 형식으로 주어진다고 하였다.
+        else if (category.equals("price")) {
+            //최소가격
+            int minPrice = Integer.parseInt(q.split(",")[0]);
+            int maxPrice = Integer.parseInt(q.split(",")[1]);
+            items = itemRepository.findByShoppingMallAndPriceBetween(foundMall, minPrice, maxPrice);
+        }
+        // 그 외면 예외 발생
+        else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
+        return items.stream().map(ItemInfoDto::fromEntity)
+                .collect(Collectors.toList());
     }
 
 }

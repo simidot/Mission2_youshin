@@ -1,6 +1,5 @@
 package com.example.missiontshoppingmall.shoppingMall.dto;
 
-import com.example.missiontshoppingmall.shoppingMall.entity.Item;
 import com.example.missiontshoppingmall.shoppingMall.entity.LargeCategory;
 import com.example.missiontshoppingmall.shoppingMall.entity.ShoppingMall;
 import lombok.*;
@@ -13,22 +12,18 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class MallInfoDto {
+public class MallInfoWithoutItem {
     private Long id;
     private String name;
     private String description;
     private LargeCategory largeCategory;
-    private List<ItemInfoWithoutMall> itemList; // todo: 나중에 삭제..
 
-    public static MallInfoDto fromEntity(ShoppingMall entity) {
-        return MallInfoDto.builder()
+    public static MallInfoWithoutItem fromEntity(ShoppingMall entity) {
+        return MallInfoWithoutItem.builder()
                 .id(entity.getId())
                 .name(entity.getName())
                 .description(entity.getDescription())
                 .largeCategory(entity.getLargeCategory())
-                .itemList(entity.getItemList().stream()
-                        .map(ItemInfoWithoutMall::fromEntity)
-                        .collect(Collectors.toList()))
                 .build();
     }
 }

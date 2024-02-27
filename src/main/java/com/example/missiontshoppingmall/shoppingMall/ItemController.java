@@ -1,10 +1,13 @@
 package com.example.missiontshoppingmall.shoppingMall;
 
+import com.example.missiontshoppingmall.shoppingMall.dto.ItemInfoDto;
 import com.example.missiontshoppingmall.shoppingMall.dto.ItemRequest;
 import com.example.missiontshoppingmall.shoppingMall.dto.ItemResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -42,5 +45,13 @@ public class ItemController {
         return "상품 삭제 완료";
     }
 
-
+    // 상품 검색 (이름, 가격범위 기준으로 상품 검색 가능)
+    @GetMapping("/search")
+    public List<ItemInfoDto> searchItem(
+            @PathVariable("mallId") Long mallId,
+            @RequestParam("q") String q,
+            @RequestParam("cat") String category
+    ) {
+        return itemService.searchItem(mallId, q, category);
+    }
 }
