@@ -10,18 +10,20 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 @Setter
-public class MallOpenResult {
+public class MallCloseResult {
     private String owner;
     private String name;
-    private boolean openIsAllowed;
-    private String deniedReason;
+    private String closeReason;
     private RunningStatus runningStatus;
+    private boolean closeIsAllowed;
+    private String deniedReason;
 
-    public static MallOpenResult fromEntity(ShoppingMall entity) {
-        return MallOpenResult.builder()
+    public static MallCloseResult fromEntity(ShoppingMall entity) {
+        return MallCloseResult.builder()
                 .owner(entity.getOwner().getAccountId())
                 .name(entity.getName())
-                .openIsAllowed(entity.getOpenIsAllowed())
+                .closeIsAllowed(entity.getCloseIsAllowed())
+                .closeReason(entity.getCloseReason())
                 .deniedReason(entity.getDeniedReason())
                 .runningStatus(entity.getRunningStatus())
                 .build();

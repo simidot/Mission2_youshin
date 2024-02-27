@@ -13,5 +13,8 @@ public interface ShoppingMallRepo extends JpaRepository<ShoppingMall, Long> {
     List<ShoppingMall> findByRequestTypeAndRunningStatusAndOpenIsAllowedIsNull(
             RequestType requestType, RunningStatus runningStatus);
 
+    List<ShoppingMall> findByRequestTypeAndRunningStatusAndCloseReasonIsNotNull(
+            RequestType requestType, RunningStatus runningStatus
+    );
 
 }

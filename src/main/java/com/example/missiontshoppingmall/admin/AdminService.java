@@ -1,9 +1,8 @@
 package com.example.missiontshoppingmall.admin;
 
 import com.example.missiontshoppingmall.EntityFromOptional;
-import com.example.missiontshoppingmall.admin.dto.BAManagement;
-import com.example.missiontshoppingmall.admin.dto.MallOpenManagement;
-import com.example.missiontshoppingmall.admin.dto.MallOpenResult;
+import com.example.missiontshoppingmall.admin.dto.*;
+import com.example.missiontshoppingmall.shoppingMall.dto.MallCloseResponse;
 import com.example.missiontshoppingmall.shoppingMall.dto.MallOpenResponse;
 import com.example.missiontshoppingmall.shoppingMall.entity.RequestType;
 import com.example.missiontshoppingmall.shoppingMall.entity.RunningStatus;
@@ -109,5 +108,40 @@ public class AdminService {
         }
         mallRepo.save(mall);
         return MallOpenResult.fromEntity(mall);
+    }
+
+    // 폐쇄신청된 쇼핑몰 목록 전체조회
+    public List<MallCloseResponse> readAllCloseRequest() {
+        // 폐쇄신청할 때는 runningStatus가 OPEN이고,
+        // RequestType이 CLOSE이고,
+        // closeReason이 null이 아니여야함.
+        return mallRepo.findByRequestTypeAndRunningStatusAndCloseReasonIsNotNull(RequestType.CLOSE,
+                        RunningStatus.OPEN)
+                .stream()
+                .map(MallCloseResponse::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    // 폐쇄신청된 쇼핑몰 단일 조회
+    public MallCloseResponse readOneCloseRequest(Long id) {
+        ShoppingMall mall = optional.getMall(id);
+        return MallCloseResponse.fromEntity(mall);
+    }
+
+    // 폐쇄신청 수락/거절
+    public MallCloseResult allowCloseOrNot(Long id, MallCloseManagement management) {
+        ShoppingMall mall = optional.getMall(id);
+        // 허가한 경우
+        if (management.isAllowed()) {
+            mall.setRunningStatus(RunningStatus.CLOSE);
+            mall.setCloseIsAllowed(true);
+            mall.setDeniedReason(null);
+        } //불허한 경우
+        else {
+            mall.setCloseIsAllowed(false);
+            mall.setDeniedReason(management.getDeniedReason());
+        }
+        mallRepo.save(mall);
+        return MallCloseResult.fromEntity(mall);
     }
 }

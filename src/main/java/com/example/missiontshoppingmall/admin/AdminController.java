@@ -1,8 +1,7 @@
 package com.example.missiontshoppingmall.admin;
 
-import com.example.missiontshoppingmall.admin.dto.BAManagement;
-import com.example.missiontshoppingmall.admin.dto.MallOpenManagement;
-import com.example.missiontshoppingmall.admin.dto.MallOpenResult;
+import com.example.missiontshoppingmall.admin.dto.*;
+import com.example.missiontshoppingmall.shoppingMall.dto.MallCloseResponse;
 import com.example.missiontshoppingmall.shoppingMall.dto.MallOpenResponse;
 import com.example.missiontshoppingmall.user.dto.response.BAResponse;
 import lombok.RequiredArgsConstructor;
@@ -42,13 +41,13 @@ public class AdminController {
     }
 
     // 개설신청된 쇼핑몰 목록 전체조회
-    @GetMapping("/shopping-mall")
+    @GetMapping("/shopping-mall/open-requests")
     public List<MallOpenResponse> allMallOpenRequests() {
         return adminService.readAllOpenRequest();
     }
 
     // 개설신청된 쇼핑몰 목록 단일조회
-    @GetMapping("/shopping-mall/{mallId}")
+    @GetMapping("/shopping-mall/open-requests/{mallId}")
     public MallOpenResponse oneMallOpenRequest(
             @PathVariable("mallId") Long id
     ) {
@@ -56,11 +55,34 @@ public class AdminController {
     }
 
     // 개설신청된 쇼핑몰 허가/불허
-    @PostMapping("/shopping-mall/{mallId}/allowance")
+    @PostMapping("/shopping-mall/open-requests/{mallId}/allowance")
     public MallOpenResult allowMallOpen(
             @PathVariable("mallId") Long id,
             @RequestBody MallOpenManagement management
-            ) {
+    ) {
         return adminService.allowOpenOrNot(id, management);
+    }
+
+    // 폐쇄신청된 쇼핑몰 목록 전체조회
+    @GetMapping("/shopping-mall/close-requests")
+    public List<MallCloseResponse> allMallCloseRequests() {
+        return adminService.readAllCloseRequest();
+    }
+
+    // 폐쇄신청된 쇼핑몰 목록 단일조회
+    @GetMapping("/shopping-mall/close-requests/{mallId}")
+    public MallCloseResponse oneMallCloseRequest(
+            @PathVariable("mallId") Long id
+    ) {
+        return adminService.readOneCloseRequest(id);
+    }
+
+    // 폐쇄신청된 쇼핑몰 수락/거절
+    @PostMapping("/shopping-mall/close-requests/{mallId}/allowance")
+    public MallCloseResult allowMallClose(
+            @PathVariable("mallId") Long id,
+            @RequestBody MallCloseManagement management
+    ) {
+        return adminService.allowCloseOrNot(id, management);
     }
 }
