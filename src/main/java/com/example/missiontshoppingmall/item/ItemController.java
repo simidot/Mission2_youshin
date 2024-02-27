@@ -1,8 +1,8 @@
-package com.example.missiontshoppingmall.shoppingMall;
+package com.example.missiontshoppingmall.item;
 
-import com.example.missiontshoppingmall.shoppingMall.dto.ItemInfoDto;
-import com.example.missiontshoppingmall.shoppingMall.dto.ItemRequest;
-import com.example.missiontshoppingmall.shoppingMall.dto.ItemResponse;
+import com.example.missiontshoppingmall.item.dto.ItemInfoDto;
+import com.example.missiontshoppingmall.item.dto.ItemRequest;
+import com.example.missiontshoppingmall.item.dto.ItemResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

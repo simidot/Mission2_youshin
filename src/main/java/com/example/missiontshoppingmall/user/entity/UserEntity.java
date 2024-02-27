@@ -1,14 +1,13 @@
 package com.example.missiontshoppingmall.user.entity;
 
 import com.example.missiontshoppingmall.BaseEntity;
-import com.example.missiontshoppingmall.shoppingMall.entity.Order;
+import com.example.missiontshoppingmall.order.entity.Order;
 import com.example.missiontshoppingmall.shoppingMall.entity.ShoppingMall;
 import com.example.missiontshoppingmall.usedGoods.entity.Suggestion;
 import com.example.missiontshoppingmall.usedGoods.entity.UsedGoods;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import lombok.*;
 
 import java.util.List;

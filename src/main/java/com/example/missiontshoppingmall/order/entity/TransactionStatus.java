@@ -1,4 +1,4 @@
-package com.example.missiontshoppingmall.shoppingMall.entity;
+package com.example.missiontshoppingmall.order.entity;
 
 public enum TransactionStatus {
     //구매요청상태

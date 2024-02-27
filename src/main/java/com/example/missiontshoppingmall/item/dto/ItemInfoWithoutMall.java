@@ -1,6 +1,6 @@
-package com.example.missiontshoppingmall.shoppingMall.dto;
+package com.example.missiontshoppingmall.item.dto;
 
-import com.example.missiontshoppingmall.shoppingMall.entity.Item;
+import com.example.missiontshoppingmall.item.entity.Item;
 import lombok.*;
 
 @Builder
@@ -11,14 +11,12 @@ import lombok.*;
 public class ItemInfoWithoutMall {
     private Long id;
     private String name;
-    private String description;
     private Integer price;
 
     public static ItemInfoWithoutMall fromEntity(Item entity) {
         return ItemInfoWithoutMall.builder()
                 .id(entity.getId())
                 .name(entity.getName())
-                .description(entity.getDescription())
                 .price(entity.getPrice())
                 .build();
     }

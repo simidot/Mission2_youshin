@@ -1,6 +1,6 @@
 package com.example.missiontshoppingmall.shoppingMall.dto;
 
-import com.example.missiontshoppingmall.shoppingMall.entity.Item;
+import com.example.missiontshoppingmall.item.dto.ItemInfoWithoutMall;
 import com.example.missiontshoppingmall.shoppingMall.entity.LargeCategory;
 import com.example.missiontshoppingmall.shoppingMall.entity.ShoppingMall;
 import lombok.*;
@@ -18,7 +18,7 @@ public class MallInfoDto {
     private String name;
     private String description;
     private LargeCategory largeCategory;
-    private List<ItemInfoWithoutMall> itemList; // todo: 나중에 삭제..
+    private List<ItemInfoWithoutMall> itemList;
 
     public static MallInfoDto fromEntity(ShoppingMall entity) {
         return MallInfoDto.builder()

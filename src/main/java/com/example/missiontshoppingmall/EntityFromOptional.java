@@ -1,8 +1,8 @@
 package com.example.missiontshoppingmall;
 
-import com.example.missiontshoppingmall.shoppingMall.entity.Item;
+import com.example.missiontshoppingmall.item.entity.Item;
 import com.example.missiontshoppingmall.shoppingMall.entity.ShoppingMall;
-import com.example.missiontshoppingmall.shoppingMall.repo.ItemRepository;
+import com.example.missiontshoppingmall.item.repo.ItemRepository;
 import com.example.missiontshoppingmall.shoppingMall.repo.ShoppingMallRepo;
 import com.example.missiontshoppingmall.usedGoods.entity.Suggestion;
 import com.example.missiontshoppingmall.usedGoods.entity.UsedGoods;
@@ -16,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Component

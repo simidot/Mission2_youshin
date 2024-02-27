@@ -1,13 +1,13 @@
-package com.example.missiontshoppingmall.shoppingMall;
+package com.example.missiontshoppingmall.item;
 
 import com.example.missiontshoppingmall.EntityFromOptional;
-import com.example.missiontshoppingmall.shoppingMall.dto.ItemInfoDto;
-import com.example.missiontshoppingmall.shoppingMall.dto.ItemRequest;
-import com.example.missiontshoppingmall.shoppingMall.dto.ItemResponse;
-import com.example.missiontshoppingmall.shoppingMall.entity.Item;
+import com.example.missiontshoppingmall.item.dto.ItemInfoDto;
+import com.example.missiontshoppingmall.item.dto.ItemRequest;
+import com.example.missiontshoppingmall.item.dto.ItemResponse;
+import com.example.missiontshoppingmall.item.entity.Item;
 import com.example.missiontshoppingmall.shoppingMall.entity.RunningStatus;
 import com.example.missiontshoppingmall.shoppingMall.entity.ShoppingMall;
-import com.example.missiontshoppingmall.shoppingMall.repo.ItemRepository;
+import com.example.missiontshoppingmall.item.repo.ItemRepository;
 import com.example.missiontshoppingmall.user.CustomUserDetailsManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,9 +1,8 @@
-package com.example.missiontshoppingmall.shoppingMall.dto;
+package com.example.missiontshoppingmall.item.dto;
 
-import com.example.missiontshoppingmall.shoppingMall.entity.Item;
+import com.example.missiontshoppingmall.shoppingMall.dto.MallInfoWithoutItem;
+import com.example.missiontshoppingmall.item.entity.Item;
 import lombok.*;
-
-import java.util.stream.Collectors;
 
 @Builder
 @Getter
