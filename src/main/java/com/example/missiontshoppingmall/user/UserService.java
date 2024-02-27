@@ -6,6 +6,7 @@ import com.example.missiontshoppingmall.user.dto.request.UserAdditionalInfoDto;
 import com.example.missiontshoppingmall.user.dto.request.UserRegisterDto;
 import com.example.missiontshoppingmall.user.dto.response.BAResponse;
 import com.example.missiontshoppingmall.user.dto.response.AdditionalInfo;
+import com.example.missiontshoppingmall.user.dto.response.BAResult;
 import com.example.missiontshoppingmall.user.dto.response.UserRegisterResponse;
 import com.example.missiontshoppingmall.user.entity.CustomUserDetails;
 import com.example.missiontshoppingmall.user.entity.UserEntity;
@@ -28,10 +29,12 @@ public class UserService {
     private final CustomUserDetailsManager manager;
     private final EntityFromOptional optional;
 
+    // 유저 로그인
     public JwtResponseDto userLogin(JwtRequestDto dto) {
         return manager.userLogin(dto);
     }
 
+    // 유저 회원가입
     @Transactional
     public UserRegisterResponse userRegister(UserRegisterDto dto) {
         //dto에서 UserDetails로 변환
@@ -47,8 +50,6 @@ public class UserService {
                 .userId(inactiveUser.getUserId())
                 .build();
     }
-
-
 
     // 추가 정보 입력 (인증관련 정보가 아니므로 그냥 UserService에서 메서드 구현하였다.)
     @Transactional
@@ -76,15 +77,14 @@ public class UserService {
         return response;
     }
 
-    // 사업자계정 등록 요청
+    // 사업자계정 전환 신청
     @Transactional
     public BAResponse registerBA (String accountId, BARequest dto) {
         UserEntity foundUser = optional.getFoundUser(accountId);
-
         // 로그인한 아이디와 이 유저가 같은지 확인
         manager.checkIdIsEqual(foundUser.getAccountId());
 
-        // 등록요청
+        // 등록요청 update
         foundUser.setBusinessNumber(dto.getBusinessNumber());
         foundUser.setBusinessIsAllowed(false);
         foundUser = userRepository.save(foundUser);
@@ -93,11 +93,11 @@ public class UserService {
     }
 
     //사업자계정 등록결과 확인
-    public BAResponse baResultCheck(String accountId) {
+    public BAResult baResultCheck(String accountId) {
         UserEntity foundUser = optional.getFoundUser(accountId);
         // 로그인한 아이디와 이 유저가 같은지 확인
         manager.checkIdIsEqual(foundUser.getAccountId());
-        return BAResponse.fromEntity(foundUser);
+        return BAResult.fromEntity(foundUser);
     }
 
 }

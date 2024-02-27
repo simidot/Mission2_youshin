@@ -1,9 +1,6 @@
 package com.example.missiontshoppingmall.shoppingMall.dto;
 
-import com.example.missiontshoppingmall.shoppingMall.entity.LargeCategory;
-import com.example.missiontshoppingmall.shoppingMall.entity.RequestType;
-import com.example.missiontshoppingmall.shoppingMall.entity.RunningStatus;
-import com.example.missiontshoppingmall.shoppingMall.entity.ShoppingMall;
+import com.example.missiontshoppingmall.shoppingMall.entity.*;
 import lombok.*;
 
 @Builder
@@ -21,9 +18,7 @@ public class MallOpenResponse {
     //요청종류
     private RequestType requestType;
     //개설요청 허가여부
-    private Boolean openIsAllowed;
-    //개설요청 불허이유
-    private String deniedReason;
+    private Allowance allowance;
 
     public static MallOpenResponse fromEntity(ShoppingMall entity) {
         return MallOpenResponse.builder()
@@ -33,8 +28,7 @@ public class MallOpenResponse {
                 .largeCategory(entity.getLargeCategory())
                 .runningStatus(entity.getRunningStatus())
                 .requestType(entity.getRequestType())
-                .openIsAllowed(entity.getOpenIsAllowed())
-                .deniedReason(entity.getDeniedReason())
+                .allowance(entity.getAllowance())
                 .build();
     }
 }

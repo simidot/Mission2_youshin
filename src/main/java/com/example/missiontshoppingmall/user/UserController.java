@@ -5,6 +5,7 @@ import com.example.missiontshoppingmall.user.dto.request.UserAdditionalInfoDto;
 import com.example.missiontshoppingmall.user.dto.request.UserRegisterDto;
 import com.example.missiontshoppingmall.user.dto.response.BAResponse;
 import com.example.missiontshoppingmall.user.dto.response.AdditionalInfo;
+import com.example.missiontshoppingmall.user.dto.response.BAResult;
 import com.example.missiontshoppingmall.user.dto.response.UserRegisterResponse;
 import com.example.missiontshoppingmall.user.jwt.JwtRequestDto;
 import com.example.missiontshoppingmall.user.jwt.JwtResponseDto;
@@ -58,7 +59,7 @@ public class UserController {
 
     // 비즈니스 계정으로 전환 결과 확인
     @GetMapping("/{accountId:.*}/business-request")
-    public BAResponse baResultCheck(
+    public BAResult baResultCheck(
             @PathVariable("accountId") String accountId
     ) {
         return userService.baResultCheck(accountId);

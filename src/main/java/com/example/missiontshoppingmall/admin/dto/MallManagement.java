@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class MallOpenManagement {
+public class MallManagement {
     private boolean allowed;
     private String deniedReason;
 }

@@ -56,8 +56,8 @@ public class UserEntity extends BaseEntity {
     @OneToMany(mappedBy = "buyer")
     private List<Suggestion> suggestionList;
 
-    @OneToOne(mappedBy = "owner")
-    private ShoppingMall shoppingMall;
+    @OneToMany(mappedBy = "owner")
+    private List<ShoppingMall> shoppingMallList;
 
     @OneToMany(mappedBy = "buyer")
     private List<Order> orderList;

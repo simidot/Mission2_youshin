@@ -31,22 +31,27 @@ public class ShoppingMall extends BaseEntity {
     @Setter
     @Enumerated(EnumType.STRING)
     private RequestType requestType;
-    //개설요청 허가여부
+
+    // 요청 허가여부
     @Setter
-    private Boolean openIsAllowed;
-    //개설요청 불허이유
+    @Enumerated(EnumType.STRING)
+    private Allowance allowance;
+    // 요청 불허이유
     @Setter
     private String deniedReason;
     //폐쇄요청 이유
     @Setter
     private String closeReason;
-    //폐쇄요청 허가여부
-    @Setter
-    private Boolean closeIsAllowed;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private UserEntity owner;
 
     @OneToMany(mappedBy = "shoppingMall")
     private List<Item> itemList;
+
+    public ShoppingMall(RunningStatus runningStatus, UserEntity owner, Allowance allowance) {
+        this.runningStatus = runningStatus;
+        this.owner = owner;
+        this.allowance = allowance;
+    }
 }

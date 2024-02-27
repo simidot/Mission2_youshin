@@ -1,5 +1,6 @@
 package com.example.missiontshoppingmall.admin.dto;
 
+import com.example.missiontshoppingmall.shoppingMall.entity.Allowance;
 import com.example.missiontshoppingmall.shoppingMall.entity.RunningStatus;
 import com.example.missiontshoppingmall.shoppingMall.entity.ShoppingMall;
 import lombok.*;
@@ -9,11 +10,10 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Setter
 public class MallOpenResult {
     private String owner;
     private String name;
-    private boolean openIsAllowed;
+    private Allowance allowance;
     private String deniedReason;
     private RunningStatus runningStatus;
 
@@ -21,7 +21,7 @@ public class MallOpenResult {
         return MallOpenResult.builder()
                 .owner(entity.getOwner().getAccountId())
                 .name(entity.getName())
-                .openIsAllowed(entity.getOpenIsAllowed())
+                .allowance(entity.getAllowance())
                 .deniedReason(entity.getDeniedReason())
                 .runningStatus(entity.getRunningStatus())
                 .build();

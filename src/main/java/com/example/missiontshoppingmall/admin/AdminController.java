@@ -58,7 +58,7 @@ public class AdminController {
     @PostMapping("/shopping-mall/open-requests/{mallId}/allowance")
     public MallOpenResult allowMallOpen(
             @PathVariable("mallId") Long id,
-            @RequestBody MallOpenManagement management
+            @RequestBody MallManagement management
     ) {
         return adminService.allowOpenOrNot(id, management);
     }
@@ -81,7 +81,7 @@ public class AdminController {
     @PostMapping("/shopping-mall/close-requests/{mallId}/allowance")
     public MallCloseResult allowMallClose(
             @PathVariable("mallId") Long id,
-            @RequestBody MallCloseManagement management
+            @RequestBody MallManagement management
     ) {
         return adminService.allowCloseOrNot(id, management);
     }
