@@ -1,7 +1,7 @@
 package com.example.missiontshoppingmall.item.entity;
 
 import com.example.missiontshoppingmall.BaseEntity;
-import com.example.missiontshoppingmall.order.entity.Order;
+import com.example.missiontshoppingmall.order.entity.ItemOrder;
 import com.example.missiontshoppingmall.shoppingMall.entity.ShoppingMall;
 import jakarta.persistence.*;
 import lombok.*;
@@ -38,5 +38,5 @@ public class Item extends BaseEntity {
     private ShoppingMall shoppingMall;
 
     @OneToMany(mappedBy = "orderItem")
-    private List<Order> orderList;
+    private List<ItemOrder> orderList;
 }

@@ -42,7 +42,7 @@ public class WebSecurityConfig {
                                         .requestMatchers("/users/**", "/used-goods/**")
                                         .hasAnyRole("ACTIVE", "BUSINESS")
                                         // 쇼핑몰 운영 서비스는 business회원만 가능
-                                        .requestMatchers("/shopping-mall/**")
+                                        .requestMatchers("/shopping-malls/**")
                                         .hasAnyRole("ACTIVE", "BUSINESS", "ADMIN")
                                         .anyRequest().authenticated()
                 )

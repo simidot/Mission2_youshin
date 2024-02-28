@@ -1,6 +1,8 @@
 package com.example.missiontshoppingmall;
 
 import com.example.missiontshoppingmall.item.entity.Item;
+import com.example.missiontshoppingmall.order.entity.ItemOrder;
+import com.example.missiontshoppingmall.order.repo.OrderRepository;
 import com.example.missiontshoppingmall.shoppingMall.entity.ShoppingMall;
 import com.example.missiontshoppingmall.item.repo.ItemRepository;
 import com.example.missiontshoppingmall.shoppingMall.repo.ShoppingMallRepo;
@@ -27,6 +29,7 @@ public class EntityFromOptional {
     private final SuggestionRepo suggestionRepo;
     private final ShoppingMallRepo mallRepo;
     private final ItemRepository itemRepository;
+    private final OrderRepository orderRepository;
 
     // 아래에서 계속 반복되는 Optional에서 중고물품 엔티티 반환 메서드
     public UsedGoods getUsedGoods(Long usedGoodsId) {
@@ -70,5 +73,12 @@ public class EntityFromOptional {
         return optionalItem.get();
     }
 
+    public ItemOrder gerOrder(Long orderId) {
+        Optional<ItemOrder> optionalOrder = orderRepository.findById(orderId);
+        if (optionalOrder.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return optionalOrder.get();
+    }
 
 }

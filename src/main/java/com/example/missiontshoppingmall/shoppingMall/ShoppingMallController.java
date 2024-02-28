@@ -10,7 +10,7 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/shopping-mall")
+@RequestMapping("/shopping-malls")
 public class ShoppingMallController {
     private final ShoppingMallService mallService;
 

@@ -41,13 +41,13 @@ public class AdminController {
     }
 
     // 개설신청된 쇼핑몰 목록 전체조회
-    @GetMapping("/shopping-mall/open-requests")
+    @GetMapping("/shopping-malls/open-requests")
     public List<MallOpenResponse> allMallOpenRequests() {
         return adminService.readAllOpenRequest();
     }
 
     // 개설신청된 쇼핑몰 목록 단일조회
-    @GetMapping("/shopping-mall/open-requests/{mallId}")
+    @GetMapping("/shopping-malls/open-requests/{mallId}")
     public MallOpenResponse oneMallOpenRequest(
             @PathVariable("mallId") Long id
     ) {
@@ -55,7 +55,7 @@ public class AdminController {
     }
 
     // 개설신청된 쇼핑몰 허가/불허
-    @PostMapping("/shopping-mall/open-requests/{mallId}/allowance")
+    @PostMapping("/shopping-malls/open-requests/{mallId}/allowance")
     public MallOpenResult allowMallOpen(
             @PathVariable("mallId") Long id,
             @RequestBody MallManagement management
@@ -64,13 +64,13 @@ public class AdminController {
     }
 
     // 폐쇄신청된 쇼핑몰 목록 전체조회
-    @GetMapping("/shopping-mall/close-requests")
+    @GetMapping("/shopping-malls/close-requests")
     public List<MallCloseResponse> allMallCloseRequests() {
         return adminService.readAllCloseRequest();
     }
 
     // 폐쇄신청된 쇼핑몰 목록 단일조회
-    @GetMapping("/shopping-mall/close-requests/{mallId}")
+    @GetMapping("/shopping-malls/close-requests/{mallId}")
     public MallCloseResponse oneMallCloseRequest(
             @PathVariable("mallId") Long id
     ) {
@@ -78,7 +78,7 @@ public class AdminController {
     }
 
     // 폐쇄신청된 쇼핑몰 수락/거절
-    @PostMapping("/shopping-mall/close-requests/{mallId}/allowance")
+    @PostMapping("/shopping-malls/close-requests/{mallId}/allowance")
     public MallCloseResult allowMallClose(
             @PathVariable("mallId") Long id,
             @RequestBody MallManagement management

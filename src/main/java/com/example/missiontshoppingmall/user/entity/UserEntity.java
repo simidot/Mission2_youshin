@@ -1,7 +1,7 @@
 package com.example.missiontshoppingmall.user.entity;
 
 import com.example.missiontshoppingmall.BaseEntity;
-import com.example.missiontshoppingmall.order.entity.Order;
+import com.example.missiontshoppingmall.order.entity.ItemOrder;
 import com.example.missiontshoppingmall.shoppingMall.entity.ShoppingMall;
 import com.example.missiontshoppingmall.usedGoods.entity.Suggestion;
 import com.example.missiontshoppingmall.usedGoods.entity.UsedGoods;
@@ -59,5 +59,5 @@ public class UserEntity extends BaseEntity {
     private List<ShoppingMall> shoppingMallList;
 
     @OneToMany(mappedBy = "buyer")
-    private List<Order> orderList;
+    private List<ItemOrder> orderList;
 }

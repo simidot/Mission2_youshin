@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/shopping-mall/{mallId}")
+@RequestMapping("/shopping-malls/{mallId}")
 public class ItemController {
     private final ItemService itemService;
 
