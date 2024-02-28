@@ -6,6 +6,7 @@ import com.example.missiontshoppingmall.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -19,6 +20,10 @@ public class ShoppingMall extends BaseEntity {
     @Lob
     @Setter
     private String description;
+
+    // 최근 거래일자 (주문이 완료되면 계속 update)
+    @Setter
+    private LocalDateTime recentOrderDate;
 
     //쇼핑몰 카테고리 (대분류)
     @Setter

@@ -116,7 +116,7 @@ public class ShoppingMallService {
 
     // 쇼핑몰 전체 조회
     public List<MallInfoDto> readAllMalls() {
-        return mallRepo.findByRunningStatusOrderByUpdatedAtDesc(RunningStatus.OPEN)
+        return mallRepo.findByRunningStatusOrderByRecentOrderDateDesc(RunningStatus.OPEN)
                 .stream()
                 .map(MallInfoDto::fromEntity)
                 .collect(Collectors.toList());

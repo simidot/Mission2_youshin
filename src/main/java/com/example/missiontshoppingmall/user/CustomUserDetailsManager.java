@@ -9,6 +9,7 @@ import com.example.missiontshoppingmall.user.jwt.JwtTokenUtils;
 import com.example.missiontshoppingmall.user.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -32,7 +33,7 @@ public class CustomUserDetailsManager implements UserDetailsManager {
     private final AuthenticationFacade facade;
 
     @Override
-    public CustomUserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
         //repo에서 userId로 찾아오기
         Optional<UserEntity> optionalUser = userRepository.findByAccountId(userId);
         if (optionalUser.isEmpty()) {
@@ -42,7 +43,7 @@ public class CustomUserDetailsManager implements UserDetailsManager {
 
         UserEntity userEntity = optionalUser.get();
         //리턴을 UserDetails 형태로 한다
-        CustomUserDetails userDetails = CustomUserDetails.builder()
+        UserDetails userDetails = CustomUserDetails.builder()
                 .userId(userEntity.getAccountId())
                 .password(userEntity.getPassword())
                 .authorities(userEntity.getAuthority())
@@ -54,7 +55,7 @@ public class CustomUserDetailsManager implements UserDetailsManager {
         // 넘어온 dto의 계정id가 없는 계정이라면 예외 발생
         if (!this.userExists(dto.getUserId())) {
             log.warn("user not exists");
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "user not found", new UsernameNotFoundException("users not found"));
         }
 
         UserDetails userDetails = this.loadUserByUsername(dto.getUserId());

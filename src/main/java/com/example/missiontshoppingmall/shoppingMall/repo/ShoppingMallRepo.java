@@ -23,10 +23,8 @@ public interface ShoppingMallRepo extends JpaRepository<ShoppingMall, Long> {
             RequestType requestType, RunningStatus runningStatus
     );
 
-    // todo: 수정 (거래 최신으로 바꿔야함)
     // 운영상태로 찾기 / 업데이트 최신순으로 정렬
-    List<ShoppingMall> findByRunningStatusOrderByUpdatedAtDesc(RunningStatus status);
-
+    List<ShoppingMall> findByRunningStatusOrderByRecentOrderDateDesc(RunningStatus status);
 
     // 쇼핑몰 이름으로 검색, 운영상태는 open
     List<ShoppingMall> findByNameContainingIgnoreCaseAndRunningStatus(String q, RunningStatus status);

@@ -6,6 +6,8 @@ import com.example.missiontshoppingmall.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @AllArgsConstructor
@@ -26,6 +28,9 @@ public class ItemOrder extends BaseEntity {
     @Setter
     @Enumerated(EnumType.STRING)
     private TransactionStatus transactionStatus;
+
+    @Setter
+    private LocalDateTime transactionDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private UserEntity buyer;

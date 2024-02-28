@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -73,16 +75,20 @@ public class OrderService {
         // 2. 로그인한 사용자가 쇼핑몰 주인인지 확인
         manager.checkIdIsEqual(foundOrder.getOrderItem().getShoppingMall().getOwner().getAccountId());
         // 3. 전달금액 확인후 구매요청 수락
-        if (foundOrder.getPaymentStatus().equals(PaymentStatus.PAID)) {
+        if (foundOrder.getPaymentStatus().equals(PaymentStatus.PAID)
+        && foundOrder.getTransactionStatus().equals(TransactionStatus.WAIT)) {
             foundOrder.setTransactionStatus(TransactionStatus.DONE);
             // 수락되면 상품재고 자동 갱신
             // 현재재고
             Integer stockNow = foundOrder.getOrderItem().getStock();
             foundOrder.getOrderItem().setStock(stockNow-foundOrder.getAmount());
+            // 거래완료 일자 업데이트
+            foundOrder.setTransactionDate(LocalDateTime.now());
+            foundOrder.getOrderItem().getShoppingMall().setRecentOrderDate(LocalDateTime.now());
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
-        orderRepo.save(foundOrder); //todo: 재고 줄어드는지 확인!
+        orderRepo.save(foundOrder);
         return OrderResponse.fromEntity(foundOrder);
     }
 

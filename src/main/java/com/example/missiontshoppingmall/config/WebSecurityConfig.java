@@ -25,10 +25,14 @@ public class WebSecurityConfig {
         httpSecurity
                 //csrf 보안 해제
                 .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(new JwtTokenFilter(jwtTokenUtils, manager), AuthorizationFilter.class)
                 //url에 따른 요청 인가
                 .authorizeHttpRequests(
                         auth -> //로그인, 회원가입은 익명사용자만 요청 가능
                                 auth
+                                        .requestMatchers("/error").permitAll()
                                         // 관리자 페이지는 관리자만 가능
                                         .requestMatchers("/admin/**")
                                         .hasAnyRole("ADMIN")
@@ -46,9 +50,7 @@ public class WebSecurityConfig {
                                         .hasAnyRole("ACTIVE", "BUSINESS", "ADMIN")
                                         .anyRequest().authenticated()
                 )
-                .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(new JwtTokenFilter(jwtTokenUtils, manager), AuthorizationFilter.class);
+        ;
         return httpSecurity.build();
     }
 }
