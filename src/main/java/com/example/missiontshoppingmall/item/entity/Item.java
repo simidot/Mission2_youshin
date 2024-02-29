@@ -3,6 +3,7 @@ package com.example.missiontshoppingmall.item.entity;
 import com.example.missiontshoppingmall.BaseEntity;
 import com.example.missiontshoppingmall.order.entity.ItemOrder;
 import com.example.missiontshoppingmall.shoppingMall.entity.ShoppingMall;
+import com.example.missiontshoppingmall.usedGoods.entity.UsedGoodsImage;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,8 +17,6 @@ import java.util.List;
 public class Item extends BaseEntity {
     @Setter
     private String name; //상품이름
-    @Setter
-    private String image; //상품 이미지 url
     @Lob
     @Setter
     private String description;
@@ -39,4 +38,14 @@ public class Item extends BaseEntity {
 
     @OneToMany(mappedBy = "orderItem")
     private List<ItemOrder> orderList;
+
+    @OneToMany(mappedBy = "item",cascade = CascadeType.ALL,
+    fetch = FetchType.LAZY)
+    private List<ItemImage> imageList;
+
+    // 연관관계 편의 메서드
+    public void addImage(ItemImage image) {
+        imageList.add(image);
+        image.setItem(this);
+    }
 }

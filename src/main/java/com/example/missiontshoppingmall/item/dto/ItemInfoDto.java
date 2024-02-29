@@ -1,8 +1,13 @@
 package com.example.missiontshoppingmall.item.dto;
 
+import com.example.missiontshoppingmall.item.entity.ItemImage;
 import com.example.missiontshoppingmall.shoppingMall.dto.MallInfoWithoutItem;
 import com.example.missiontshoppingmall.item.entity.Item;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Builder
 @Getter
@@ -12,7 +17,7 @@ import lombok.*;
 public class ItemInfoDto {
     private Long id;
     private String name;
-    private String image;
+    private List<ItemImageDto> imageUrls;
     private String description;
     private String mediumCategory;
     private String smallCategory;
@@ -20,10 +25,14 @@ public class ItemInfoDto {
     private MallInfoWithoutItem shoppingMall;
 
     public static ItemInfoDto fromEntity(Item entity) {
+        List<ItemImageDto> dtoList = entity.getImageList().stream()
+                .map(ItemImageDto::fromEntity)
+                .collect(Collectors.toList());
+
         return ItemInfoDto.builder()
                 .id(entity.getId())
                 .name(entity.getName())
-                .image(entity.getImage())
+                .imageUrls(dtoList)
                 .description(entity.getDescription())
                 .mediumCategory(entity.getMediumCategory())
                 .smallCategory(entity.getSmallCategory())

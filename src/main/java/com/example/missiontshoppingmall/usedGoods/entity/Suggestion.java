@@ -23,8 +23,17 @@ public class Suggestion extends BaseEntity {
     private PurchaseStatus purchaseStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @Setter
     private UsedGoods usedGoods;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private UserEntity buyer; //buyer
+
+    // 연관관계 편의 메서드
+    public void addUsedGoods(UsedGoods ug) {
+        this.setUsedGoods(ug);
+        ug.getSuggestionList().add(this);
+    }
+
+
 }

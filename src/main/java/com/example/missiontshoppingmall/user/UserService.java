@@ -1,6 +1,7 @@
 package com.example.missiontshoppingmall.user;
 
 import com.example.missiontshoppingmall.EntityFromOptional;
+import com.example.missiontshoppingmall.S3FileService;
 import com.example.missiontshoppingmall.user.dto.request.BARequest;
 import com.example.missiontshoppingmall.user.dto.request.UserAdditionalInfoDto;
 import com.example.missiontshoppingmall.user.dto.request.UserRegisterDto;
@@ -15,8 +16,11 @@ import com.example.missiontshoppingmall.user.jwt.JwtResponseDto;
 import com.example.missiontshoppingmall.user.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 import java.util.stream.Stream;
@@ -28,6 +32,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final CustomUserDetailsManager manager;
     private final EntityFromOptional optional;
+    private final S3FileService s3FileService;
 
     // 유저 로그인
     public JwtResponseDto userLogin(JwtRequestDto dto) {
@@ -75,6 +80,37 @@ public class UserService {
         // true면 업데이트된 정보를, 아닐경우는 본래정보 리턴
         AdditionalInfo response = AdditionalInfo.fromEntity(foundUser);
         return response;
+    }
+
+    // 프로필 사진 추가
+    @Transactional
+    public String uploadProfileImage(String accountId, List<MultipartFile> multipartFile) {
+        // 본인인지 확인
+        manager.checkIdIsEqual(accountId);
+        // 해당 유저 엔티티의 profile이 null이 아니면 해당 파일을 삭제하고, 새로운 프로필 사진을 업로드 할 것.
+
+        // 1. 해당 유저 엔티티 갖고오기
+        UserEntity foundUser = optional.getFoundUser(accountId);
+        // 2. profile이 null인지 확인
+        if (foundUser.getProfile() != null) {
+            // null이 아니면 해당 url에 있는 사진객체를 삭제할 것
+            log.info("url,lllll: "+foundUser.getProfile().substring(foundUser.getProfile().lastIndexOf("/")+1,
+                    foundUser.getProfile().length()-1));
+            s3FileService.deleteImage("/profile", foundUser.getProfile()
+                    .substring(foundUser.getProfile().lastIndexOf("/")+1,
+                            foundUser.getProfile().length()-1));
+        }
+
+        // s3에 해당 프로필 사진 업로드 (단 한장만 가능!!)
+        if (multipartFile.size() > 1) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "프로필 사진은 한장만 업로드 가능");
+        }
+        List<String> uploadUrls =  s3FileService.uploadIntoS3("/profile", multipartFile);
+        log.info("uploadUrl  "+uploadUrls.toString());
+
+        foundUser.setProfile(uploadUrls.toString());
+        userRepository.save(foundUser);
+        return foundUser.getProfile();
     }
 
     // 사업자계정 전환 신청

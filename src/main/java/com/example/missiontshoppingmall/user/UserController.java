@@ -1,5 +1,6 @@
 package com.example.missiontshoppingmall.user;
 
+import com.example.missiontshoppingmall.S3FileService;
 import com.example.missiontshoppingmall.user.dto.request.BARequest;
 import com.example.missiontshoppingmall.user.dto.request.UserAdditionalInfoDto;
 import com.example.missiontshoppingmall.user.dto.request.UserRegisterDto;
@@ -11,7 +12,11 @@ import com.example.missiontshoppingmall.user.jwt.JwtRequestDto;
 import com.example.missiontshoppingmall.user.jwt.JwtResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -19,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
-
     // 로그인
     @PostMapping("/login")
     public JwtResponseDto userLogin(
@@ -46,6 +50,16 @@ public class UserController {
             @RequestBody UserAdditionalInfoDto dto
     ) {
         return userService.additionalInfo(id, dto);
+    }
+
+    // 프로필 사진 추가
+    @PostMapping(value = "/{accountId:.*}/profile")
+    @Transactional
+    public String addProfileImage(
+            @PathVariable("accountId") String id,
+            @RequestPart("file") List<MultipartFile> multipartFile
+    ) {
+        return userService.uploadProfileImage(id, multipartFile);
     }
 
     // 비즈니스 계정으로 전환 신청

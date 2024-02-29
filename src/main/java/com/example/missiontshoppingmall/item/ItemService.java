@@ -1,18 +1,24 @@
 package com.example.missiontshoppingmall.item;
 
 import com.example.missiontshoppingmall.EntityFromOptional;
+import com.example.missiontshoppingmall.S3FileService;
 import com.example.missiontshoppingmall.item.dto.ItemInfoDto;
 import com.example.missiontshoppingmall.item.dto.ItemRequest;
 import com.example.missiontshoppingmall.item.dto.ItemResponse;
 import com.example.missiontshoppingmall.item.entity.Item;
+import com.example.missiontshoppingmall.item.entity.ItemImage;
+import com.example.missiontshoppingmall.item.repo.ItemImageRepo;
 import com.example.missiontshoppingmall.shoppingMall.entity.RunningStatus;
 import com.example.missiontshoppingmall.shoppingMall.entity.ShoppingMall;
 import com.example.missiontshoppingmall.item.repo.ItemRepository;
+import com.example.missiontshoppingmall.usedGoods.entity.UsedGoods;
+import com.example.missiontshoppingmall.usedGoods.entity.UsedGoodsImage;
 import com.example.missiontshoppingmall.user.CustomUserDetailsManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
@@ -26,68 +32,96 @@ public class ItemService {
     private final ItemRepository itemRepository;
     private final EntityFromOptional optional;
     private final CustomUserDetailsManager manager;
+    private final S3FileService s3FileService;
+    private final ItemImageRepo imageRepo;
 
     // 상품 등록
-    public ItemResponse createItem(Long mallId, ItemRequest dto) {
-        // 로그인사용자가 쇼핑몰 주인인지 확인
+    public ItemResponse createItem(List<MultipartFile> multipartFile, Long mallId, ItemRequest dto) {
+        // 1. 로그인사용자가 쇼핑몰 주인인지 확인
         ShoppingMall mall = optional.getMall(mallId);
         manager.checkIdIsEqual(mall.getOwner().getAccountId());
 
-        // 쇼핑몰이 OPEN인지 확인
+        // 2. 쇼핑몰이 OPEN인지 확인
         if (!mall.getRunningStatus().equals(RunningStatus.OPEN)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
 
+        // 3. dto로 Item 새로운 객체 생성
         Item newItem = Item.builder()
                 .name(dto.getName())
-                .image(dto.getImage())
                 .price(dto.getPrice())
                 .description(dto.getDescription())
                 .stock(dto.getStock())
+                .imageList(new ArrayList<>())
                 .mediumCategory(dto.getMediumCategory())
                 .smallCategory(dto.getSmallCategory())
                 .shoppingMall(mall)
                 .build();
-        itemRepository.save(newItem);
+        // 4. 아이템 저장
+        newItem = itemRepository.save(newItem);
+
+        // 5. S3에 이미지 업로드, 그 파일들이 저장된 url을 String으로 변환
+        List<String> urls = s3FileService.uploadIntoS3("/item", multipartFile);
+        // 5. 이 url 하나하나 ItemImage 객체가 생긴다 + 저장
+        for (String url : urls) {
+            ItemImage image = ItemImage.builder()
+                    .imgUrl(url)
+                    .build();
+            image.addItem(newItem);
+            imageRepo.save(image);
+        }
         return ItemResponse.fromEntity(newItem);
     }
 
     // 상품 수정
-    public ItemResponse updateItem(Long mallId, Long itemId, ItemRequest dto) {
-        // 로그인사용자가 쇼핑몰 주인인지 확인
+    public ItemResponse updateItem(List<MultipartFile> multipartFile, Long mallId, Long itemId, ItemRequest dto) {
+        // 1. 로그인사용자가 쇼핑몰 주인인지 확인
         ShoppingMall mall = optional.getMall(mallId);
         manager.checkIdIsEqual(mall.getOwner().getAccountId());
-        // 쇼핑몰이 OPEN인지 확인
+        // 2. 쇼핑몰이 OPEN인지 확인
         if (!mall.getRunningStatus().equals(RunningStatus.OPEN)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
-        // 상품 찾기
+        // 3. 상품 찾기
         Item foundItem = optional.getItem(itemId);
         log.info("foundItem:: "+foundItem.getName());
-        // 수정사항 반영
+        // 4. 수정사항 반영
         foundItem.setName(dto.getName());
         foundItem.setDescription(dto.getDescription());
-        foundItem.setImage(dto.getImage());
         foundItem.setPrice(dto.getPrice());
         foundItem.setStock(dto.getStock());
         foundItem.setMediumCategory(dto.getMediumCategory());
         foundItem.setSmallCategory(dto.getSmallCategory());
-        itemRepository.save(foundItem);
+        foundItem = itemRepository.save(foundItem);
+
+        // 5. 사진이 추가되면 새로운 Image 엔티티가 생성됨.
+        List<String> urls = s3FileService.uploadIntoS3("/item", multipartFile);
+        for (String url : urls) {
+            ItemImage image = ItemImage.builder()
+                    .imgUrl(url)
+                    .build();
+            image.addItem(foundItem);
+            imageRepo.save(image);
+        }
         return ItemResponse.fromEntity(foundItem);
     }
 
     // 상품 삭제
     public void deleteItem(Long mallId, Long itemId) {
-        // 로그인사용자가 쇼핑몰 주인인지 확인
+        // 1. 로그인사용자가 쇼핑몰 주인인지 확인
         ShoppingMall mall = optional.getMall(mallId);
         manager.checkIdIsEqual(mall.getOwner().getAccountId());
-        // 쇼핑몰이 OPEN인지 확인
+        // 2. 쇼핑몰이 OPEN인지 확인
         if (!mall.getRunningStatus().equals(RunningStatus.OPEN)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
-        // 상품 찾기
+        // 3. 상품 찾기
         Item foundItem = optional.getItem(itemId);
-        // 상품 삭제
+        // 4. 상품을 삭제하면 상품이미지도 함께 삭제됨. 그 전에 S3에서 삭제
+        for (ItemImage image : foundItem.getImageList()) {
+            s3FileService.deleteImage("/item", image.getImgUrl());
+        }
+        // 5. 상품 삭제
         itemRepository.delete(foundItem);
     }
 

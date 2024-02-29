@@ -1,12 +1,13 @@
 package com.example.missiontshoppingmall.usedGoods;
 
-import com.example.missiontshoppingmall.AuthenticationFacade;
+import com.example.missiontshoppingmall.S3FileService;
 import com.example.missiontshoppingmall.usedGoods.dto.request.UsedGoodsDto;
 import com.example.missiontshoppingmall.usedGoods.dto.response.UsedGoodsWithoutSeller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -16,14 +17,14 @@ import java.util.List;
 @RequestMapping("/used-goods")
 public class UsedGoodsController {
     private final UsedGoodsService usedGoodsService;
-    private final AuthenticationFacade facade;
 
     // 물품등록
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public UsedGoodsDto registerUsedGoods(
-            @RequestBody UsedGoodsDto dto
+            @RequestPart("file") List<MultipartFile> multipartFile,
+            @RequestPart UsedGoodsDto dto
     ) {
-        return usedGoodsService.uploadUsedGoods(dto);
+        return usedGoodsService.uploadUsedGoods(multipartFile, dto);
     }
 
     // 중고거래 등록된 물품 전체조회
@@ -44,9 +45,10 @@ public class UsedGoodsController {
     @PutMapping("/{usedGoodsId}")
     public UsedGoodsDto updateUsedGoods(
             @PathVariable("usedGoodsId") Long id,
-            @RequestBody UsedGoodsDto dto
+            @RequestPart("file") List<MultipartFile> multipartFile,
+            @RequestPart UsedGoodsDto dto
     ) {
-        return usedGoodsService.updateUsedGoods(id, dto);
+        return usedGoodsService.updateUsedGoods(multipartFile, id, dto);
     }
 
     // 중고거래 등록한 물품 삭제

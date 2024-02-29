@@ -3,6 +3,9 @@ package com.example.missiontshoppingmall.item.dto;
 import com.example.missiontshoppingmall.item.entity.Item;
 import lombok.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Builder
 @Getter
 @NoArgsConstructor
@@ -11,19 +14,23 @@ import lombok.*;
 public class ItemResponse {
     private Long id;
     private String name;
-    private String image;
     private String description;
     private String mediumCategory;
     private String smallCategory;
     private Integer stock;
     private Integer price;
+    private List<ItemImageDto> imageUrls;
 
     public static ItemResponse fromEntity(Item entity) {
+        List<ItemImageDto> dtoList = entity.getImageList().stream()
+                .map(ItemImageDto::fromEntity)
+                .collect(Collectors.toList());
+
         return ItemResponse.builder()
                 .id(entity.getId())
                 .name(entity.getName())
                 .description(entity.getDescription())
-                .image(entity.getImage())
+                .imageUrls(dtoList)
                 .mediumCategory(entity.getMediumCategory())
                 .smallCategory(entity.getSmallCategory())
                 .stock(entity.getStock())

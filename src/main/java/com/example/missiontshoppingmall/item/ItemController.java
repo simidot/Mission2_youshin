@@ -6,6 +6,7 @@ import com.example.missiontshoppingmall.item.dto.ItemResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -20,9 +21,10 @@ public class ItemController {
     @PostMapping
     public ItemResponse uploadItem(
             @PathVariable("mallId") Long id,
-            @RequestBody ItemRequest dto
+            @RequestPart("file") List<MultipartFile> multipartFile,
+            @RequestPart ItemRequest dto
     ) {
-        return itemService.createItem(id, dto);
+        return itemService.createItem(multipartFile, id, dto);
     }
 
     // 상품 수정
@@ -30,9 +32,10 @@ public class ItemController {
     public ItemResponse updateItem(
             @PathVariable("mallId") Long mallId,
             @PathVariable("itemId") Long itemId,
-            @RequestBody ItemRequest dto
+            @RequestPart("file") List<MultipartFile> multipartFile,
+            @RequestPart ItemRequest dto
     ) {
-        return itemService.updateItem(mallId, itemId, dto);
+        return itemService.updateItem(multipartFile, mallId, itemId, dto);
     }
 
     // 상품 삭제
