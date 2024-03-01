@@ -1,6 +1,6 @@
 package com.example.missiontshoppingmall.order.entity;
 
-import com.example.missiontshoppingmall.BaseEntity;
+import com.example.missiontshoppingmall.utils.BaseEntity;
 import com.example.missiontshoppingmall.item.entity.Item;
 import com.example.missiontshoppingmall.user.entity.UserEntity;
 import jakarta.persistence.*;
@@ -24,6 +24,11 @@ public class ItemOrder extends BaseEntity {
     @Setter
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
+
+    // 결제 키
+    @Setter
+    private String paymentKey;
+
     // 구매요청 수락 상태
     @Setter
     @Enumerated(EnumType.STRING)

@@ -1,0 +1,26 @@
+package com.example.missiontshoppingmall.utils;
+
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.service.annotation.HttpExchange;
+import org.springframework.web.service.annotation.PostExchange;
+
+import java.util.LinkedHashMap;
+
+@HttpExchange("/payments")
+public interface TossHttpInterface {
+    // confirm Payment
+    @PostExchange("/confirm")
+    LinkedHashMap<String, Object> confirmPayment(
+            @RequestBody PaymentConfirmDto dto
+    );
+
+    // cancel Payment
+    @PostExchange("/{paymentKey}/cancel")
+    LinkedHashMap<String, Object> cancelPayment(
+            @RequestBody PaymentCancelDto dto
+    );
+
+    // orderId로 결제 조회
+
+
+}

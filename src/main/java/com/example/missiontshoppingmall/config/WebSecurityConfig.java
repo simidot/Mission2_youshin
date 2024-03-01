@@ -32,8 +32,10 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(
                         auth -> //로그인, 회원가입은 익명사용자만 요청 가능
                                 auth
-                                        .requestMatchers("/error").permitAll()
-                                        // 관리자 페이지는 관리자만 가능
+//                                        .anyRequest().permitAll()
+                                        .requestMatchers("/error", "/payment/**",
+                                                "/static/**", "/toss/**", "shopping-malls/order/{orderId}/payment").permitAll()
+//                                         관리자 페이지는 관리자만 가능
                                         .requestMatchers("/admin/**")
                                         .hasAnyRole("ADMIN")
                                         // 로그인과 회원가입은 익명 사용자만 가능
@@ -46,7 +48,7 @@ public class WebSecurityConfig {
                                         .requestMatchers("/users/**", "/used-goods/**")
                                         .hasAnyRole("ACTIVE", "BUSINESS")
                                         // 쇼핑몰 운영 서비스는 business회원만 가능
-                                        .requestMatchers("/shopping-malls/**")
+                                        .requestMatchers("/shopping-malls/**", "/payment/**")
                                         .hasAnyRole("ACTIVE", "BUSINESS", "ADMIN")
                                         .anyRequest().authenticated()
                 )

@@ -19,6 +19,7 @@ public class OrderResponse {
     private String buyerId;
     private ItemInfoWithoutMall item;
     private Integer totalPrice;
+    private String paymentKey;
 
     public static OrderResponse fromEntity(ItemOrder entity) {
         return OrderResponse.builder()
@@ -29,6 +30,7 @@ public class OrderResponse {
                 .buyerId(entity.getBuyer().getAccountId())
                 .item(ItemInfoWithoutMall.fromEntity(entity.getOrderItem()))
                 .totalPrice(entity.getTotalPrice())
+                .paymentKey(entity.getPaymentKey())
                 .build();
     }
 }
