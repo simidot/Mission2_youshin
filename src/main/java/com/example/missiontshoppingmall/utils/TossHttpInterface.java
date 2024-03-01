@@ -1,5 +1,6 @@
 package com.example.missiontshoppingmall.utils;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.service.annotation.HttpExchange;
 import org.springframework.web.service.annotation.PostExchange;
@@ -17,6 +18,7 @@ public interface TossHttpInterface {
     // cancel Payment
     @PostExchange("/{paymentKey}/cancel")
     LinkedHashMap<String, Object> cancelPayment(
+            @PathVariable("paymentKey") String paymentKey,
             @RequestBody PaymentCancelDto dto
     );
 

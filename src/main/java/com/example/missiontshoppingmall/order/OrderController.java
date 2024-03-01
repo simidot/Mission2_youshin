@@ -3,6 +3,7 @@ package com.example.missiontshoppingmall.order;
 import com.example.missiontshoppingmall.order.dto.OrderConfirmDto;
 import com.example.missiontshoppingmall.order.dto.OrderRequest;
 import com.example.missiontshoppingmall.order.dto.OrderResponse;
+import com.example.missiontshoppingmall.utils.PaymentCancelDto;
 import com.example.missiontshoppingmall.utils.PaymentConfirmDto;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -42,13 +43,13 @@ public class OrderController {
     // 구매요청 취소 (before 구매요청 수락) (본인확인)
     @PostMapping("orders/{orderId}/order-cancel")
     public OrderResponse cancelOrder(
-            @PathVariable("orderId") Long orderId
+            @PathVariable("orderId") Long orderId,
+            @RequestBody PaymentCancelDto dto
     ) {
-
-        return orderService.cancelOrder(orderId);
+        return orderService.cancelOrder(orderId, dto);
     }
 
-    // 주인: 구매요청 수락 > 재고 자동 갱신  주인확인 필요
+    // 주인: 구매요청 수락 주인확인 필요
     @PostMapping("/order-requests/{orderId}/order-confirm")
     public OrderResponse confirmOrder(
             @PathVariable("orderId") Long orderId,

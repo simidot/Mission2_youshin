@@ -34,6 +34,9 @@ public class ItemOrder extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private TransactionStatus transactionStatus;
 
+    @Setter //만약 구매요청 거절되면 거절 이유
+    private String transactionDeniedReason;
+
     @Setter
     private LocalDateTime transactionDate;
 

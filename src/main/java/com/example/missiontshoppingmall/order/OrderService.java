@@ -10,6 +10,7 @@ import com.example.missiontshoppingmall.order.entity.PaymentStatus;
 import com.example.missiontshoppingmall.order.entity.TransactionStatus;
 import com.example.missiontshoppingmall.order.repo.OrderRepository;
 import com.example.missiontshoppingmall.user.CustomUserDetailsManager;
+import com.example.missiontshoppingmall.utils.PaymentCancelDto;
 import com.example.missiontshoppingmall.utils.PaymentConfirmDto;
 import com.example.missiontshoppingmall.utils.TossHttpInterface;
 import jakarta.servlet.http.HttpServletResponse;
@@ -55,15 +56,12 @@ public class OrderService {
     }
 
     // orderId로 결제요청하기
-    //todo: PaymentConfirmDto를 가로채보자,
 
     // 결제 승인 요청 보내기
     public OrderResponse confirmPayment(PaymentConfirmDto dto) {
-
         // HTTP 요청 보냄
         HashMap<String, Object> tossPaymentObj = tossService.confirmPayment(dto);
         log.info("tossPaymentObj :: " + tossPaymentObj.toString());
-
 
         String itemOrderId = tossPaymentObj.get("orderName").toString().split("-")[0];
         // orderId로 Order 객체 찾아내기
@@ -79,7 +77,7 @@ public class OrderService {
     }
 
     // 구매요청 취소 (before 구매요청 수락) (본인확인)
-    public OrderResponse cancelOrder(Long orderId) {
+    public OrderResponse cancelOrder(Long orderId, PaymentCancelDto dto) {
         // 1. 주문정보를 찾고
         ItemOrder foundOrder = optional.gerOrder(orderId);
         // 2. 로그인한 사용자가 주문한 사용자인지 확인
@@ -90,44 +88,49 @@ public class OrderService {
         }
         // 이미 결제한 경우 구매취소시 결제된 금액 환불
         if (foundOrder.getPaymentStatus().equals(PaymentStatus.PAID)) {
-
+            tossService.cancelPayment(foundOrder.getPaymentKey(), dto);
+            // 재고 이전으로 갱신!!
+            foundOrder.getOrderItem().setStock(foundOrder.getOrderItem().getStock() - foundOrder.getAmount());
         }
+        // 모두 취소로 바꿈.
         foundOrder.setPaymentStatus(PaymentStatus.CANCELED);
         foundOrder.setTransactionStatus(TransactionStatus.CANCELED);
         orderRepo.save(foundOrder);
         return OrderResponse.fromEntity(foundOrder);
     }
 
-    // 주인: 구매요청 수락 > 재고 자동 갱신  주인확인 필요
+    // 주인: 구매요청 수락 주인확인 필요
     // transaction status -> done
     public OrderResponse confirmOrder(Long orderId, OrderConfirmDto dto) {
         // 1. 주문정보를 찾고
         ItemOrder foundOrder = optional.gerOrder(orderId);
         // 2. 로그인한 사용자가 쇼핑몰 주인인지 확인
         manager.checkIdIsEqual(foundOrder.getOrderItem().getShoppingMall().getOwner().getAccountId());
-        // 3. 전달금액 확인후 구매요청 수락
-        if (foundOrder.getPaymentStatus().equals(PaymentStatus.PAID)
-        && foundOrder.getTransactionStatus().equals(TransactionStatus.WAIT)) {
-            // 혹시 재고가 부족한지 한번 더 확인. (*구매요청 시에는 재고가 있었다가, 구매 수락 시에는 재고가 없을 수 있기때문)
-            if (foundOrder.getAmount() > foundOrder.getOrderItem().getStock()) {
-                log.info("재고가 부족하여 구매요청이 수락되지 않았습니다.");
-                // 구매 취소 처리
-                foundOrder.setTransactionStatus(TransactionStatus.CANCELED);
-                foundOrder.setPaymentStatus(PaymentStatus.CANCELED);
-                // todo: 환불 (지불 취소)
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "재고가 부족하여 구매요청이 수락되지 않았습니다.");
+        // 3. 주인이 구매요청 승인시
+        if (dto.isConfirmation()) {
+            // 이때 결제는 완료된 상태이며, 거래는 대기중인 상태라면!!
+            if (foundOrder.getPaymentStatus().equals(PaymentStatus.PAID)
+                    && foundOrder.getTransactionStatus().equals(TransactionStatus.WAIT)) {
+                // 거래 완료 처리.
+                foundOrder.setTransactionStatus(TransactionStatus.DONE);
+                // 거래완료 일자 업데이트
+                foundOrder.setTransactionDate(LocalDateTime.now());
+                // 쇼핑몰 최근거래 일자도 함께 업데이트
+                foundOrder.getOrderItem().getShoppingMall().setRecentOrderDate(LocalDateTime.now());
+            } else { // 결제가 완료되지 않거나, 거래가 취소/완료된 상태라면 bad request
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
             }
-
-            // 재고가 있다면 수락 처리
-            foundOrder.setTransactionStatus(TransactionStatus.DONE);
-            // 수락되면 상품재고 자동 갱신
-
-            // 거래완료 일자 업데이트
-            foundOrder.setTransactionDate(LocalDateTime.now());
-            // 쇼핑몰 최근거래 일자도 함께 업데이트
-            foundOrder.getOrderItem().getShoppingMall().setRecentOrderDate(LocalDateTime.now());
-        } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        // 주인이 구매요청 불허시
+        else {
+            // 이유를 밝히고 취소처리 및 결제 환불
+            foundOrder.setTransactionDeniedReason(dto.getDeniedReason());
+            foundOrder.setTransactionStatus(TransactionStatus.CANCELED);
+            // 결제 취소
+            tossService.cancelPayment(
+                    foundOrder.getPaymentKey(),
+                    PaymentCancelDto.builder().cancelReason("쇼핑몰 측의 구매요청 취소").build());
+            foundOrder.setPaymentStatus(PaymentStatus.CANCELED);
         }
         orderRepo.save(foundOrder);
         return OrderResponse.fromEntity(foundOrder);

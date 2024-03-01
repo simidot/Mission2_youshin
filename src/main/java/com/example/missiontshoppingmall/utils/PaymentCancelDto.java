@@ -8,5 +8,5 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class PaymentCancelDto {
-    private String cancelReason;
+    private String cancelReason; // 취소 사유
 }
