@@ -1,6 +1,5 @@
 package com.example.missiontshoppingmall.user;
 
-import com.example.missiontshoppingmall.S3FileService;
 import com.example.missiontshoppingmall.user.dto.request.BARequest;
 import com.example.missiontshoppingmall.user.dto.request.UserAdditionalInfoDto;
 import com.example.missiontshoppingmall.user.dto.request.UserRegisterDto;

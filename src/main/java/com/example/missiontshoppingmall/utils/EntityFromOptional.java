@@ -1,4 +1,4 @@
-package com.example.missiontshoppingmall;
+package com.example.missiontshoppingmall.utils;
 
 import com.example.missiontshoppingmall.item.entity.Item;
 import com.example.missiontshoppingmall.order.entity.ItemOrder;

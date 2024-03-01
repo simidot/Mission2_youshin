@@ -1,4 +1,4 @@
-package com.example.missiontshoppingmall;
+package com.example.missiontshoppingmall.utils;
 
 import com.example.missiontshoppingmall.user.entity.UserEntity;
 import org.springframework.security.core.Authentication;

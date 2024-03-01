@@ -1,4 +1,4 @@
-package com.example.missiontshoppingmall;
+package com.example.missiontshoppingmall.utils;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;

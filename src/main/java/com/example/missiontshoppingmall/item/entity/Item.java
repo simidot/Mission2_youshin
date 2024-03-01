@@ -1,9 +1,8 @@
 package com.example.missiontshoppingmall.item.entity;
 
-import com.example.missiontshoppingmall.BaseEntity;
+import com.example.missiontshoppingmall.utils.BaseEntity;
 import com.example.missiontshoppingmall.order.entity.ItemOrder;
 import com.example.missiontshoppingmall.shoppingMall.entity.ShoppingMall;
-import com.example.missiontshoppingmall.usedGoods.entity.UsedGoodsImage;
 import jakarta.persistence.*;
 import lombok.*;
 

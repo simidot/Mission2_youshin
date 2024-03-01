@@ -1,6 +1,6 @@
 package com.example.missiontshoppingmall.usedGoods;
 
-import com.example.missiontshoppingmall.EntityFromOptional;
+import com.example.missiontshoppingmall.utils.EntityFromOptional;
 import com.example.missiontshoppingmall.usedGoods.dto.request.SuggestionDto;
 import com.example.missiontshoppingmall.usedGoods.dto.response.SuggestionResponse;
 import com.example.missiontshoppingmall.usedGoods.entity.*;
@@ -15,10 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

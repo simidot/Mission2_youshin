@@ -1,10 +1,7 @@
 package com.example.missiontshoppingmall.item.entity;
 
-import com.example.missiontshoppingmall.BaseEntity;
-import com.example.missiontshoppingmall.usedGoods.entity.UsedGoods;
-import jakarta.persistence.CascadeType;
+import com.example.missiontshoppingmall.utils.BaseEntity;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
 

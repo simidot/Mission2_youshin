@@ -1,7 +1,6 @@
 package com.example.missiontshoppingmall.shoppingMall;
 
-import com.example.missiontshoppingmall.EntityFromOptional;
-import com.example.missiontshoppingmall.admin.dto.MallOpenResult;
+import com.example.missiontshoppingmall.utils.EntityFromOptional;
 import com.example.missiontshoppingmall.shoppingMall.dto.*;
 import com.example.missiontshoppingmall.shoppingMall.entity.*;
 import com.example.missiontshoppingmall.shoppingMall.repo.ShoppingMallRepo;

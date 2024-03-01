@@ -1,7 +1,7 @@
 package com.example.missiontshoppingmall.item;
 
-import com.example.missiontshoppingmall.EntityFromOptional;
-import com.example.missiontshoppingmall.S3FileService;
+import com.example.missiontshoppingmall.utils.EntityFromOptional;
+import com.example.missiontshoppingmall.utils.S3FileService;
 import com.example.missiontshoppingmall.item.dto.ItemInfoDto;
 import com.example.missiontshoppingmall.item.dto.ItemRequest;
 import com.example.missiontshoppingmall.item.dto.ItemResponse;
@@ -11,8 +11,6 @@ import com.example.missiontshoppingmall.item.repo.ItemImageRepo;
 import com.example.missiontshoppingmall.shoppingMall.entity.RunningStatus;
 import com.example.missiontshoppingmall.shoppingMall.entity.ShoppingMall;
 import com.example.missiontshoppingmall.item.repo.ItemRepository;
-import com.example.missiontshoppingmall.usedGoods.entity.UsedGoods;
-import com.example.missiontshoppingmall.usedGoods.entity.UsedGoodsImage;
 import com.example.missiontshoppingmall.user.CustomUserDetailsManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

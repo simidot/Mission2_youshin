@@ -1,30 +1,24 @@
 package com.example.missiontshoppingmall.usedGoods;
 
-import com.example.missiontshoppingmall.EntityFromOptional;
-import com.example.missiontshoppingmall.S3FileService;
+import com.example.missiontshoppingmall.utils.EntityFromOptional;
+import com.example.missiontshoppingmall.utils.S3FileService;
 import com.example.missiontshoppingmall.usedGoods.dto.request.UsedGoodsDto;
 import com.example.missiontshoppingmall.usedGoods.dto.response.UsedGoodsWithoutSeller;
 import com.example.missiontshoppingmall.usedGoods.entity.SaleStatus;
 import com.example.missiontshoppingmall.usedGoods.entity.UsedGoods;
 import com.example.missiontshoppingmall.usedGoods.entity.UsedGoodsImage;
-import com.example.missiontshoppingmall.usedGoods.repo.SuggestionRepo;
 import com.example.missiontshoppingmall.usedGoods.repo.UsedGoodsImageRepo;
 import com.example.missiontshoppingmall.usedGoods.repo.UsedGoodsRepo;
 import com.example.missiontshoppingmall.user.CustomUserDetailsManager;
-import com.example.missiontshoppingmall.user.entity.CustomUserDetails;
 import com.example.missiontshoppingmall.user.entity.UserEntity;
-import com.example.missiontshoppingmall.user.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j

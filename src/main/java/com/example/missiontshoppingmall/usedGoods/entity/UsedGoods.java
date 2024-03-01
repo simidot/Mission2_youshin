@@ -1,8 +1,7 @@
 package com.example.missiontshoppingmall.usedGoods.entity;
 
-import com.example.missiontshoppingmall.BaseEntity;
+import com.example.missiontshoppingmall.utils.BaseEntity;
 import com.example.missiontshoppingmall.user.entity.UserEntity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 

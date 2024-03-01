@@ -1,6 +1,5 @@
 package com.example.missiontshoppingmall.usedGoods;
 
-import com.example.missiontshoppingmall.S3FileService;
 import com.example.missiontshoppingmall.usedGoods.dto.request.UsedGoodsDto;
 import com.example.missiontshoppingmall.usedGoods.dto.response.UsedGoodsWithoutSeller;
 import lombok.RequiredArgsConstructor;

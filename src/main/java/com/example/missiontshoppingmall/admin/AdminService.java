@@ -1,6 +1,6 @@
 package com.example.missiontshoppingmall.admin;
 
-import com.example.missiontshoppingmall.EntityFromOptional;
+import com.example.missiontshoppingmall.utils.EntityFromOptional;
 import com.example.missiontshoppingmall.admin.dto.*;
 import com.example.missiontshoppingmall.shoppingMall.dto.MallCloseResponse;
 import com.example.missiontshoppingmall.shoppingMall.dto.MallOpenResponse;
@@ -20,7 +20,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

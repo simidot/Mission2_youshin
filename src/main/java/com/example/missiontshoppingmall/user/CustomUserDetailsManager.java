@@ -1,6 +1,6 @@
 package com.example.missiontshoppingmall.user;
 
-import com.example.missiontshoppingmall.AuthenticationFacade;
+import com.example.missiontshoppingmall.utils.AuthenticationFacade;
 import com.example.missiontshoppingmall.user.entity.CustomUserDetails;
 import com.example.missiontshoppingmall.user.entity.UserEntity;
 import com.example.missiontshoppingmall.user.jwt.JwtRequestDto;
@@ -9,10 +9,7 @@ import com.example.missiontshoppingmall.user.jwt.JwtTokenUtils;
 import com.example.missiontshoppingmall.user.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,7 +17,6 @@ import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Slf4j

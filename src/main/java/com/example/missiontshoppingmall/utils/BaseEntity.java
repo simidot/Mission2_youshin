@@ -1,4 +1,4 @@
-package com.example.missiontshoppingmall;
+package com.example.missiontshoppingmall.utils;
 
 import jakarta.persistence.*;
 import lombok.Getter;
