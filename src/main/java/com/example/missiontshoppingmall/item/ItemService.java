@@ -51,8 +51,6 @@ public class ItemService {
                 .description(dto.getDescription())
                 .stock(dto.getStock())
                 .imageList(new ArrayList<>())
-                .mediumCategory(dto.getMediumCategory())
-                .smallCategory(dto.getSmallCategory())
                 .shoppingMall(mall)
                 .build();
         // 4. 아이템 저장
@@ -88,8 +86,6 @@ public class ItemService {
         foundItem.setDescription(dto.getDescription());
         foundItem.setPrice(dto.getPrice());
         foundItem.setStock(dto.getStock());
-        foundItem.setMediumCategory(dto.getMediumCategory());
-        foundItem.setSmallCategory(dto.getSmallCategory());
         foundItem = itemRepository.save(foundItem);
 
         // 5. 사진이 추가되면 새로운 Image 엔티티가 생성됨.

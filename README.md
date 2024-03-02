@@ -37,10 +37,12 @@
 
 - 빠르고 신속하게 만들기보다 여유롭고 **차근차근** 하나씩 완성해나갈 것
 
-**CYCLE 정리**
+## 🖥️ 4. 구현 과정 및 정리 🖥️
+### 1) 기본적인 CYCLE 정리
 ![img.png](lifecycle.png)
 
-**경우의 수 정리**
+### 2) 쇼핑몰 개설/폐쇄 경우의 수 정리
 ![running_status.png](running_status.png)
-ERD
+
+### 3) ERD
 ![img_1.png](erd.png)

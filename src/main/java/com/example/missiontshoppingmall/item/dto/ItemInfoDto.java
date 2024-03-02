@@ -19,8 +19,6 @@ public class ItemInfoDto {
     private String name;
     private List<ItemImageDto> imageUrls;
     private String description;
-    private String mediumCategory;
-    private String smallCategory;
     private Integer price;
     private MallInfoWithoutItem shoppingMall;
 
@@ -34,8 +32,6 @@ public class ItemInfoDto {
                 .name(entity.getName())
                 .imageUrls(dtoList)
                 .description(entity.getDescription())
-                .mediumCategory(entity.getMediumCategory())
-                .smallCategory(entity.getSmallCategory())
                 .price(entity.getPrice())
                 .shoppingMall(MallInfoWithoutItem.fromEntity(entity.getShoppingMall()))
                 .build();

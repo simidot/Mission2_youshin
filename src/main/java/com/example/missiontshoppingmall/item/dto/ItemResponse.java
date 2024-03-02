@@ -15,8 +15,6 @@ public class ItemResponse {
     private Long id;
     private String name;
     private String description;
-    private String mediumCategory;
-    private String smallCategory;
     private Integer stock;
     private Integer price;
     private List<ItemImageDto> imageUrls;
@@ -31,8 +29,6 @@ public class ItemResponse {
                 .name(entity.getName())
                 .description(entity.getDescription())
                 .imageUrls(dtoList)
-                .mediumCategory(entity.getMediumCategory())
-                .smallCategory(entity.getSmallCategory())
                 .stock(entity.getStock())
                 .price(entity.getPrice())
                 .build();

@@ -19,12 +19,7 @@ public class Item extends BaseEntity {
     @Lob
     @Setter
     private String description;
-    //상품 중분류
-    @Setter
-    private String mediumCategory;
-    //상품 소분류
-    @Setter
-    private String smallCategory;
+
     //재고
     @Setter
     private Integer stock;
