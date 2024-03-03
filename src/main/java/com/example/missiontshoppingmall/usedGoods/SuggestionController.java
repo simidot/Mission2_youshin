@@ -53,4 +53,14 @@ public class SuggestionController {
     ) {
         return suggestionService.confirmOrNot(usedGoodsId, suggestionId, confirmation);
     }
+
+//    todo: 물품 구매 확정시 두 사용자가 거래진행 위치를 제안.
+//    @PostMapping("/{suggestionId}/location")
+//    public void suggestLocation(
+//            @PathVariable("usedGoodsId") Long usedGoodsId,
+//            @PathVariable("suggestionId") Long suggestionId
+//
+//    ) {
+//        return
+//    }
 }

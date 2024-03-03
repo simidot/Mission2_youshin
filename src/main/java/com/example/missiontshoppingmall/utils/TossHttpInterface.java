@@ -1,5 +1,7 @@
 package com.example.missiontshoppingmall.utils;
 
+import com.example.missiontshoppingmall.shoppingMall.dto.PaymentCancelDto;
+import com.example.missiontshoppingmall.shoppingMall.dto.PaymentConfirmDto;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.service.annotation.HttpExchange;

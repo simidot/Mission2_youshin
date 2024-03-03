@@ -146,4 +146,9 @@ public class SuggestionService {
         usedGoodsRepo.save(usedGoods);
         return SuggestionResponse.fromEntity(thisSuggestion);
     }
+
+    // todo: 물품 구매 확정시 두 사용자가 거래진행 위치를 제안.
+//    public void suggestLocation(Long suggestionId) {
+//
+//    }
 }
