@@ -1,0 +1,1547 @@
+{
+	"info": {
+		"_postman_id": "3a9fe5f3-604f-4671-8d99-fe01cf1b2881",
+		"name": "ShoppingMall",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28503411"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "회원가입하기",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\":\"234\",\r\n    \"password\": \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "로그인",
+					"protocolProfileBehavior": {
+						"followRedirects": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\":\"234\",\r\n    \"password\":\"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "추가정보입력",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMzQiLCJpYXQiOjE3MDk2MjEyMTksImV4cCI6MTcwOTcwNzYxOSwiYXV0aCI6WyJST0xFX0lOQUNUSVZFIl19.9THFd_E2WmL6E66m5M5N4_ez80eh1Sjx6JxwgVRvqTE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"123\",\r\n    \"nickname\":\"1234\",\r\n    \"age\": 27,\r\n    \"email\": \"email@naver.com\",\r\n    \"phone\": \"01012345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/234/additional-info",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"234",
+								"additional-info"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "비즈니스계정 전환신청",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMiLCJpYXQiOjE3MDk2MjAwOTcsImV4cCI6MTcwOTcwNjQ5NywiYXV0aCI6WyJST0xFX0lOQUNUSVZFIl19.K4RWV-wrA8kf1OjaHJ0fVlQg5itd6bBPpUSz_P56xIo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"businessNumber\": \"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/123/business-request",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"123",
+								"business-request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "전환신청 결과 확인",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMiLCJpYXQiOjE3MDk2MjAwOTcsImV4cCI6MTcwOTcwNjQ5NywiYXV0aCI6WyJST0xFX0lOQUNUSVZFIl19.K4RWV-wrA8kf1OjaHJ0fVlQg5itd6bBPpUSz_P56xIo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"businessNumber\": \"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/123/business-request",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"123",
+								"business-request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "프로필사진 업로드",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMiLCJpYXQiOjE3MDk2MjAwOTcsImV4cCI6MTcwOTcwNjQ5NywiYXV0aCI6WyJST0xFX0lOQUNUSVZFIl19.K4RWV-wrA8kf1OjaHJ0fVlQg5itd6bBPpUSz_P56xIo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"contentType": "",
+									"type": "file",
+									"src": "/C:/Users/gram/Desktop/9369565.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/123/profile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"123",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "admin",
+			"item": [
+				{
+					"name": "admin로그인",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\":\"admin\",\r\n    \"password\":\"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "전환신청 전체조회",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTcwOTYyMDYxOCwiZXhwIjoxNzA5NzA3MDE4LCJhdXRoIjpbIlJPTEVfQURNSU4iXX0.YAnOEtxmqsbfk9FjVIOLVXbnDsB3POnhP0tBwG3kIcc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/admin/business",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"business"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "전환신청 단일조회",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTcwOTYyMDYxOCwiZXhwIjoxNzA5NzA3MDE4LCJhdXRoIjpbIlJPTEVfQURNSU4iXX0.YAnOEtxmqsbfk9FjVIOLVXbnDsB3POnhP0tBwG3kIcc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/admin/business/123",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"business",
+								"123"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "비즈니스계정 전환허가",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTcwOTYyMDYxOCwiZXhwIjoxNzA5NzA3MDE4LCJhdXRoIjpbIlJPTEVfQURNSU4iXX0.YAnOEtxmqsbfk9FjVIOLVXbnDsB3POnhP0tBwG3kIcc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"businessAllowance\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/admin/business/123",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"business",
+								"123"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "개설신청 전체조회",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMzQiLCJpYXQiOjE3MDk2MjEyMTksImV4cCI6MTcwOTcwNzYxOSwiYXV0aCI6WyJST0xFX0lOQUNUSVZFIl19.9THFd_E2WmL6E66m5M5N4_ez80eh1Sjx6JxwgVRvqTE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/admin/shopping-malls/open-requests",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"shopping-malls",
+								"open-requests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "개설신청 단일조회",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTcwOTA4MTA5NywiZXhwIjoxNzA5MTY3NDk3LCJhdXRoIjpbIlJPTEVfQURNSU4iXX0.KVLKBFoKW_SWk04hYKHa1YgMZNAYQ4vy_QGAVkDKXX0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/admin/shopping-malls/open-requests/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"shopping-malls",
+								"open-requests",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "쇼핑몰개설신청 허가",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTcwOTYyMDYxOCwiZXhwIjoxNzA5NzA3MDE4LCJhdXRoIjpbIlJPTEVfQURNSU4iXX0.YAnOEtxmqsbfk9FjVIOLVXbnDsB3POnhP0tBwG3kIcc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"allowed\": true,\r\n    \"deniedReason\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/admin/shopping-malls/open-requests/1/allowance",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"shopping-malls",
+								"open-requests",
+								"1",
+								"allowance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "폐쇄신청 전체조회",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTcwODk0NzUyMywiZXhwIjoxNzA5MDMzOTIzLCJhdXRoIjpbIlJPTEVfQURNSU4iXX0.Yb7cnXBietbJKKV4eh5o9b6nv6pf8RhKwEJqeneTSGU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/admin/shopping-mall/close-requests",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"shopping-mall",
+								"close-requests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "폐쇄신청 단일조회",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTcwODk0NzUyMywiZXhwIjoxNzA5MDMzOTIzLCJhdXRoIjpbIlJPTEVfQURNSU4iXX0.Yb7cnXBietbJKKV4eh5o9b6nv6pf8RhKwEJqeneTSGU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/admin/shopping-mall/close-requests/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"shopping-mall",
+								"close-requests",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "쇼핑몰폐쇄신청 허가",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTcwODk0ODkzMiwiZXhwIjoxNzA5MDM1MzMyLCJhdXRoIjpbIlJPTEVfQURNSU4iXX0.jLO6N40dYx-q_-kz3F0Bj_e02dCNa0wbo8OGsZVP_Zw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"allowed\": true,\r\n    \"deniedReason\": \"이유 미비\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/admin/shopping-mall/close-requests/5/allowance",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"shopping-mall",
+								"close-requests",
+								"5",
+								"allowance"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "UsedGoods",
+			"item": [
+				{
+					"name": "중고물품 등록",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMiLCJpYXQiOjE3MDk2MjAwOTcsImV4cCI6MTcwOTcwNjQ5NywiYXV0aCI6WyJST0xFX0lOQUNUSVZFIl19.K4RWV-wrA8kf1OjaHJ0fVlQg5itd6bBPpUSz_P56xIo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/gram/Desktop/9369549.png"
+								},
+								{
+									"key": "dto",
+									"value": "{\n    \"title\": \"장갑 팝니다\",\n    \"description\": \"상태 좋아요\",\n    \"minimumPrice\": 12000\n}",
+									"contentType": "application/json",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/used-goods",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"used-goods"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "중고물품 전체조회",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMiLCJpYXQiOjE3MDk2MjAwOTcsImV4cCI6MTcwOTcwNjQ5NywiYXV0aCI6WyJST0xFX0lOQUNUSVZFIl19.K4RWV-wrA8kf1OjaHJ0fVlQg5itd6bBPpUSz_P56xIo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"장갑 팝니다\",\r\n    \"description\": \"상태 좋아요\",\r\n    \"minimumPrice\": 12000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/used-goods",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"used-goods"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "중고물품  단일조회",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMiLCJpYXQiOjE3MDk2MjAwOTcsImV4cCI6MTcwOTcwNjQ5NywiYXV0aCI6WyJST0xFX0lOQUNUSVZFIl19.K4RWV-wrA8kf1OjaHJ0fVlQg5itd6bBPpUSz_P56xIo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"장갑 팝니다\",\r\n    \"description\": \"상태 좋아요\",\r\n    \"minimumPrice\": 12000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/used-goods/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"used-goods",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "중고물품 수정",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMiLCJpYXQiOjE3MDk2MjAwOTcsImV4cCI6MTcwOTcwNjQ5NywiYXV0aCI6WyJST0xFX0lOQUNUSVZFIl19.K4RWV-wrA8kf1OjaHJ0fVlQg5itd6bBPpUSz_P56xIo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/gram/Desktop/9369548.png"
+								},
+								{
+									"key": "dto",
+									"value": "{\n    \"title\": \"목도리 팝니다\",\n    \"description\": \"상태 굿~\",\n    \"minimumPrice\": 12000\n}",
+									"contentType": "application/json",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/used-goods/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"used-goods",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "중고물품 삭제",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMiLCJpYXQiOjE3MDk2MjAwOTcsImV4cCI6MTcwOTcwNjQ5NywiYXV0aCI6WyJST0xFX0lOQUNUSVZFIl19.K4RWV-wrA8kf1OjaHJ0fVlQg5itd6bBPpUSz_P56xIo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"목도리 팝니다\",\r\n    \"description\": \"상태 굿~\",\r\n    \"minimumPrice\": 12000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/used-goods/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"used-goods",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "suggestion",
+			"item": [
+				{
+					"name": "구매제안 등록",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMzQiLCJpYXQiOjE3MDk2MjEyMTksImV4cCI6MTcwOTcwNzYxOSwiYXV0aCI6WyJST0xFX0lOQUNUSVZFIl19.9THFd_E2WmL6E66m5M5N4_ez80eh1Sjx6JxwgVRvqTE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"suggestionMessage\": \"안녕하세요! 구매하고싶습니다.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/used-goods/1/suggestion",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"used-goods",
+								"1",
+								"suggestion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "구매제안 조회",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMiLCJpYXQiOjE3MDk2MjAwOTcsImV4cCI6MTcwOTcwNjQ5NywiYXV0aCI6WyJST0xFX0lOQUNUSVZFIl19.K4RWV-wrA8kf1OjaHJ0fVlQg5itd6bBPpUSz_P56xIo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/used-goods/1/suggestion",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"used-goods",
+								"1",
+								"suggestion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "seller 수락/거절",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMiLCJpYXQiOjE3MDk2MjAwOTcsImV4cCI6MTcwOTcwNjQ5NywiYXV0aCI6WyJST0xFX0lOQUNUSVZFIl19.K4RWV-wrA8kf1OjaHJ0fVlQg5itd6bBPpUSz_P56xIo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/used-goods/1/suggestion/1/acceptance?acceptance=true",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"used-goods",
+								"1",
+								"suggestion",
+								"1",
+								"acceptance"
+							],
+							"query": [
+								{
+									"key": "acceptance",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "buyer 확정/취소",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMzQiLCJpYXQiOjE3MDk2MjEyMTksImV4cCI6MTcwOTcwNzYxOSwiYXV0aCI6WyJST0xFX0lOQUNUSVZFIl19.9THFd_E2WmL6E66m5M5N4_ez80eh1Sjx6JxwgVRvqTE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/used-goods/1/suggestion/1/purchase-confirm?confirmation=true",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"used-goods",
+								"1",
+								"suggestion",
+								"1",
+								"purchase-confirm"
+							],
+							"query": [
+								{
+									"key": "confirmation",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "shoppingmall",
+			"item": [
+				{
+					"name": "쇼핑몰 개설신청",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMiLCJpYXQiOjE3MDk2MjAwOTcsImV4cCI6MTcwOTcwNjQ5NywiYXV0aCI6WyJST0xFX0lOQUNUSVZFIl19.K4RWV-wrA8kf1OjaHJ0fVlQg5itd6bBPpUSz_P56xIo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"오영샵\",\r\n    \"description\": \"20대 여성을 위한 쇼핑몰\",\r\n    \"largeCategory\": \"CLOTHING\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/shopping-malls/open-request",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"shopping-malls",
+								"open-request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "쇼핑몰 정보수정",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMiLCJpYXQiOjE3MDk2MjAwOTcsImV4cCI6MTcwOTcwNjQ5NywiYXV0aCI6WyJST0xFX0lOQUNUSVZFIl19.K4RWV-wrA8kf1OjaHJ0fVlQg5itd6bBPpUSz_P56xIo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"에코리딩\",\r\n    \"description\": \"책을 구매하려면 오세요\",\r\n    \"largeCategory\": \"HOME\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/shopping-malls/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"shopping-malls",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "쇼핑몰 폐쇄신청",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMzQiLCJpYXQiOjE3MDkwMTE2NDAsImV4cCI6MTcwOTA5ODA0MCwiYXV0aCI6WyJST0xFX0lOQUNUSVZFIl19.Y6lYXYjQ1z-WAXe30MUevaqgtA89v0LvY6ZTLoez6C4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"requestType\": \"CLOSE\",\r\n    \"closeReason\": \"사정이 더이상 운영할 수 없게 되었습니다.\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/shopping-mall/5/close-request",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"shopping-mall",
+								"5",
+								"close-request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "쇼핑몰 전체조회",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMiLCJpYXQiOjE3MDk2MjAwOTcsImV4cCI6MTcwOTcwNjQ5NywiYXV0aCI6WyJST0xFX0lOQUNUSVZFIl19.K4RWV-wrA8kf1OjaHJ0fVlQg5itd6bBPpUSz_P56xIo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/shopping-malls",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"shopping-malls"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "쇼핑몰 검색",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMzQiLCJpYXQiOjE3MDkwODEzMjEsImV4cCI6MTcwOTE2NzcyMSwiYXV0aCI6WyJST0xFX0lOQUNUSVZFIl19.YgioZ_5OKH6oXTYm_44-Te3TbejBr3oRTho1StmhICk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/shopping-mall?q=오영&criteria=mname",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"shopping-mall"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "오영"
+								},
+								{
+									"key": "criteria",
+									"value": "mname"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "item",
+			"item": [
+				{
+					"name": "상품등록",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMiLCJpYXQiOjE3MDk2MjAwOTcsImV4cCI6MTcwOTcwNjQ5NywiYXV0aCI6WyJST0xFX0lOQUNUSVZFIl19.K4RWV-wrA8kf1OjaHJ0fVlQg5itd6bBPpUSz_P56xIo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/gram/Desktop/7280143.png"
+								},
+								{
+									"key": "dto",
+									"value": "{\n    \"name\": \"니트\",\n    \"image\": \"knit.jpg\",\n    \"description\": \"보드라운 니트\",\n    \"stock\": 100,\n    \"price\":\"36000\"\n}",
+									"contentType": "application/json",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/shopping-malls/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"shopping-malls",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "상품수정",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMiLCJpYXQiOjE3MDk2MjAwOTcsImV4cCI6MTcwOTcwNjQ5NywiYXV0aCI6WyJST0xFX0lOQUNUSVZFIl19.K4RWV-wrA8kf1OjaHJ0fVlQg5itd6bBPpUSz_P56xIo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/gram/Desktop/7280143.png"
+								},
+								{
+									"key": "dto",
+									"value": "{\n    \"name\": \"바지\",\n    \"image\": \"pants.jpg\",\n    \"description\": \"보드라운 바지\",\n    \"stock\": 50,\n    \"price\":\"25000\"\n}",
+									"contentType": "application/json",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/shopping-malls/1/items/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"shopping-malls",
+								"1",
+								"items",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "상품삭제",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMiLCJpYXQiOjE3MDk2MjAwOTcsImV4cCI6MTcwOTcwNjQ5NywiYXV0aCI6WyJST0xFX0lOQUNUSVZFIl19.K4RWV-wrA8kf1OjaHJ0fVlQg5itd6bBPpUSz_P56xIo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"바지\",\r\n    \"image\": \"pants.jpg\",\r\n    \"description\": \"보드라운 바지\",\r\n    \"mediumCategory\": \"하의\",\r\n    \"smallCategory\": \"청바지\",\r\n    \"stock\": 100,\r\n    \"price\":\"25000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/shopping-malls/1/items/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"shopping-malls",
+								"1",
+								"items",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "상품 검색",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMiLCJpYXQiOjE3MDk2MjAwOTcsImV4cCI6MTcwOTcwNjQ5NywiYXV0aCI6WyJST0xFX0lOQUNUSVZFIl19.K4RWV-wrA8kf1OjaHJ0fVlQg5itd6bBPpUSz_P56xIo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/shopping-malls/1/search?q=20000,38000&cat=price",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"shopping-malls",
+								"1",
+								"search"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "20000,38000"
+								},
+								{
+									"key": "cat",
+									"value": "price"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "order",
+			"item": [
+				{
+					"name": "상품구매",
+					"protocolProfileBehavior": {
+						"followRedirects": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMiLCJpYXQiOjE3MDk2MjAwOTcsImV4cCI6MTcwOTcwNjQ5NywiYXV0aCI6WyJST0xFX0lOQUNUSVZFIl19.K4RWV-wrA8kf1OjaHJ0fVlQg5itd6bBPpUSz_P56xIo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"amount\":2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/shopping-malls/items/1/order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"shopping-malls",
+								"items",
+								"1",
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "구매요청 취소",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMiLCJpYXQiOjE3MDk2MjAwOTcsImV4cCI6MTcwOTcwNjQ5NywiYXV0aCI6WyJST0xFX0lOQUNUSVZFIl19.K4RWV-wrA8kf1OjaHJ0fVlQg5itd6bBPpUSz_P56xIo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cancelReason\":\"상품 잘못 구매\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/shopping-malls/orders/2/order-cancel",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"shopping-malls",
+								"orders",
+								"2",
+								"order-cancel"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "구매요청 수락",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMiLCJpYXQiOjE3MDk2MjAwOTcsImV4cCI6MTcwOTcwNjQ5NywiYXV0aCI6WyJST0xFX0lOQUNUSVZFIl19.K4RWV-wrA8kf1OjaHJ0fVlQg5itd6bBPpUSz_P56xIo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"confirmation\":true,\r\n    \"deniedReason\": \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/shopping-malls/order-requests/2/order-confirm",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"shopping-malls",
+								"order-requests",
+								"2",
+								"order-confirm"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -21,14 +21,14 @@ public class OrderController {
 
     // 쇼핑몰 상품 구매 (상품, 구매수량 기준으로 구매 요청)
     @PostMapping("/items/{itemId}/order")
-    public void orderItem(
+    public OrderResponse orderItem(
             @PathVariable("itemId") Long itemId,
             @RequestBody OrderRequest dto,
             HttpServletResponse res
     ) throws IOException {
         OrderResponse response = orderService.createOrder(itemId, dto);
-//        return response;
-        res.sendRedirect("http://localhost:8080/payment/"+response.getId());
+        return response;
+//        res.sendRedirect("http://localhost:8080/payment/"+response.getId());
     } // 상품구매를 하고 나서 > 결제 요청을 위해 Redirect를 하여 html로 이동한다고 가정.
 
     // 쇼핑몰 상품 구매시 결제 승인 요청

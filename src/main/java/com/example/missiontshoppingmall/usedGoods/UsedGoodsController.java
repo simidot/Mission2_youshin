@@ -44,7 +44,7 @@ public class UsedGoodsController {
     @PutMapping("/{usedGoodsId}")
     public UsedGoodsDto updateUsedGoods(
             @PathVariable("usedGoodsId") Long id,
-            @RequestPart("file") List<MultipartFile> multipartFile,
+            @RequestPart(value = "file", required = false) List<MultipartFile> multipartFile,
             @RequestPart UsedGoodsDto dto
     ) {
         return usedGoodsService.updateUsedGoods(multipartFile, id, dto);

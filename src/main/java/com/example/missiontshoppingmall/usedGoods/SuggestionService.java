@@ -32,7 +32,6 @@ public class SuggestionService {
     public SuggestionResponse uploadSuggestion(Long usedGoodsId, SuggestionDto dto) {
         // usedGoodsId로 해당 물품을 찾고, 해당물품의 Seller와 같지 않아야 제안이 가능하다.
         UsedGoods foundGoods = optional.getUsedGoods(usedGoodsId);
-        log.info("과연: "+foundGoods.getId());
         manager.checkIdIsNotEqual(foundGoods.getSeller().getAccountId()); // 같을시 예외발생함
 
         // 구매제안 등록하는 사람 추출
