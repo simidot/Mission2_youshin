@@ -127,10 +127,13 @@
 4. 테스트시 postman 파일을 import하여 실행하도록 한다.
 
 ### 테스트
+
+- 해당 파일의 포스트맨 파일을 다운로드하여 import하면 테스트가 편리합니다.
 1) 회원가입하기
 2) 로그인하기
 3) 이후 매 요청마다 토큰을 복사하여 Auth - Bearer Token에 붙여넣기 
-- 토스 테스트시 : 
+4) 참고로 삭제기능은 AWS측에서 README에 accesskey 노출로 인해 접근 권한을 막아버려 실행이 불가능합니다..
+- 토스 테스트시 : 직접 브라우저에 http://localhost:8080/payment/{orderId} 를 입력하여 접속합니다. 이후 결제하면 결제 성공입니다.
 
 #  🚀 5. 참여자 (24.02.22 ~ 24.03.05)
 
@@ -145,7 +148,8 @@
 ![running_status.png](running_status.png)
 
 ### 3) Spring Security + JWT 구현방법
-![img_1.png](img_1.png)
+
+![img.png](img.png)
 #### [정리글 링크](https://hehesim.tistory.com/216)
 
 
@@ -166,7 +170,7 @@
 - UserEntity는 인증보다는 실제 DB에 저장되는 유저 테이블에 대한 것들을 다루어야 한다고 생각하여 그렇게 나누어 구현했다.
 
 - 요렇게 두가지로 서비스를 **나누어 구현**해보았다.
-  ![img.png](img.png)
+![img_1.png](img_1.png)
 </div>
 </details>
 
@@ -200,8 +204,7 @@ spring:
 ```
 
 - 그러나, 나는 처음에 되던 sql script가 프로젝트 중간에 갑자기 실행이 되지 않았다...
-  ![img_2.png](img_2.png)
-
+![img_2.png](img_2.png)
 ---
 결국 세팅을 조금 바꿔서 **import.sql**로 **hibernate** 내에서 스크립트가 실행되도록 변경했더니 되긴 됐다.
 ```yaml
@@ -280,7 +283,6 @@ ex) 사업자 계정 전환 신청시 해당 로그인한 아이디와 신청하
 <summary><strong>4. 클래스캐스팅 오류</strong></summary>
 
 <div markdown="1"> 
-
 
 ![img_3.png](img_3.png)
 
@@ -396,7 +398,7 @@ ex) 사업자 계정 전환 신청시 해당 로그인한 아이디와 신청하
 <div markdown="1"> 
 
 - 분명 ResponseException에 대한 다양한 설정을 해두었는데, 요청에 대한 에러가 무조건 **403 Forbidden**만 나타났다. 그래서 오류가 발생해도 어떤 이유인지 찾기가 너무 어려웠다. not found인지, bad request인지 등등 어떤 에러인지를 확인해야 쉽게 해당 문제를 해결할 수 있는데.
-  ![img_4.png](img_4.png)
+![img_4.png](img_4.png)
 
 ---
 => 알고보니 SecurityFilterChain에서 request에 대한 설정 때문이었다.
@@ -465,12 +467,11 @@ public class WebSecurityConfig {
   이때 url로 이동하면 이러한 이상한 화면이 나왔다.
 - 실제로 브라우저에 해당 url을 검색하면 이 때도 사진이 보이는 것이 아니라, 바로 다운로드가 되어버렸다.
 
-  ![img_6.png](img_6.png)
-
+![img_6.png](img_6.png)
 ---
 - 확인해보니 업로드 시 Content-Type이 multipart/form-data로 설정이 되어버려 자동으로 다운로드 파일로 인식한다는 점이었다.
 - 그래서 다시 Content-Type을 설정하지 않고 업로드했더니 자동으로 png 타입으로 설정이 되면서 해당 프로필 사진을 조회할 수 있었다.
-  ![img_7.png](img_7.png)
+![img_7.png](img_7.png)
 
 </div>
 </details>
@@ -538,7 +539,7 @@ public String uploadProfileImage(String accountId, List<MultipartFile> multipart
 
 #### 1) NPE.
 - 그런데, fromEntity()라는 엔티티를 DTO형식으로 바꿔주는 static factory method를 실행하면서 엔티티 자체에 list가 null이라는 문제가 발생했다. (ㅠㅠ)
-  ![img_10.png](img_10.png)
+![img_10.png](img_10.png)
 
 - 나의 생각의 오류 첫번째는
   UsedGoods에 **ImageList를 빌드하지 않았다**.
@@ -696,6 +697,7 @@ public class UsedGoodsImage extends BaseEntity {
         return UsedGoodsDto.fromEntity(newGoods);
     }
 ```
+
 ![img_12.png](img_12.png)
 그랬더니 imgUrl도 모두 나왔다!
 
