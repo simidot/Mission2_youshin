@@ -50,10 +50,10 @@ public class ShoppingMall extends BaseEntity {
     @Setter
     private String closeReason;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private UserEntity owner;
 
-    @OneToMany(mappedBy = "shoppingMall")
+    @OneToMany(mappedBy = "shoppingMall", fetch = FetchType.LAZY)
     private List<Item> itemList;
 
     public ShoppingMall(RunningStatus runningStatus, UserEntity owner, Allowance allowance) {

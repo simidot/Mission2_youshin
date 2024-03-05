@@ -30,16 +30,10 @@ public class Item extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private ShoppingMall shoppingMall;
 
-    @OneToMany(mappedBy = "orderItem")
+    @OneToMany(mappedBy = "orderItem", fetch = FetchType.LAZY)
     private List<ItemOrder> orderList;
 
     @OneToMany(mappedBy = "item",cascade = CascadeType.ALL,
     fetch = FetchType.LAZY)
     private List<ItemImage> imageList;
-
-    // 연관관계 편의 메서드
-    public void addImage(ItemImage image) {
-        imageList.add(image);
-        image.setItem(this);
-    }
 }

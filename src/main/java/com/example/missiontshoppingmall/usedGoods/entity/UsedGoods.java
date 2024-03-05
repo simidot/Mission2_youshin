@@ -30,11 +30,10 @@ public class UsedGoods extends BaseEntity {
     @Setter
     private SaleStatus saleStatus;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private UserEntity seller; //seller
 
-    @OneToMany(mappedBy = "usedGoods", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "usedGoods", fetch = FetchType.LAZY)
     private List<Suggestion> suggestionList = new ArrayList<>();
 
     @OneToMany(mappedBy = "usedGoods", fetch = FetchType.LAZY,

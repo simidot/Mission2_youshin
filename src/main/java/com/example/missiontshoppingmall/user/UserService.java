@@ -94,8 +94,6 @@ public class UserService {
         // 2. profile이 null인지 확인
         if (foundUser.getProfile() != null) {
             // null이 아니면 해당 url에 있는 사진객체를 삭제할 것
-            log.info("url,lllll: "+foundUser.getProfile().substring(foundUser.getProfile().lastIndexOf("/")+1,
-                    foundUser.getProfile().length()-1));
             s3FileService.deleteImage("/profile", foundUser.getProfile()
                     .substring(foundUser.getProfile().lastIndexOf("/")+1,
                             foundUser.getProfile().length()-1));

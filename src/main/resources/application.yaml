@@ -1,35 +1,36 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3307/shoppingmall
+
+    url: jdbc:mysql://localhost:3307/shoppingmall?useSSL=false&allowPublicKeyRetrieval=true
     username: root
-    password:
+    password: 1234
   sql:
     init:
       data-locations: classpath:import.sql
       mode: always
   jpa:
     hibernate:
-      ddl-auto: update
-    database-platform: org.hibernate.dialect.MySQLDialect
+      ddl-auto: create
+#    database-platform: org.hibernate.dialect.MySQLDialect
     defer-datasource-initialization: true
     show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
   mvc:
     static-path-pattern: '/static/**'
 #    view:
 #      prefix: /templates/
 #      suffix: .html
 
-#    properties:
-#      hibernate:
-#        format_sql: true
 jwt:
-  secret:
+  secret: dhdhdrgrjkjlfdlgjldppprpujgjlkjjldfgsg
 
 cloud:
   aws:
     s3:
-      bucket:
+      bucket: shoppingmall-bucket-simidot
     credentials:
       access-key:
       secret-key:

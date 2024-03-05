@@ -25,7 +25,7 @@ public class ItemOrder extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
 
-    // 결제 키
+    // 토스 페이먼츠 결제 키
     @Setter
     private String paymentKey;
 
@@ -40,9 +40,9 @@ public class ItemOrder extends BaseEntity {
     @Setter
     private LocalDateTime transactionDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private UserEntity buyer;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Item orderItem;
 }

@@ -7,6 +7,7 @@ import com.example.missiontshoppingmall.usedGoods.entity.Suggestion;
 import com.example.missiontshoppingmall.usedGoods.entity.UsedGoods;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import lombok.*;
 
@@ -49,15 +50,15 @@ public class UserEntity extends BaseEntity {
     private Boolean businessIsAllowed; //사업자 허가 여부
 
     // 연관관계
-    @OneToMany(mappedBy = "seller")
+    @OneToMany(mappedBy = "seller", fetch = FetchType.LAZY)
     private List<UsedGoods> sellingList;
 
-    @OneToMany(mappedBy = "buyer")
+    @OneToMany(mappedBy = "buyer", fetch = FetchType.LAZY)
     private List<Suggestion> suggestionList;
 
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
     private List<ShoppingMall> shoppingMallList;
 
-    @OneToMany(mappedBy = "buyer")
+    @OneToMany(mappedBy = "buyer", fetch = FetchType.LAZY)
     private List<ItemOrder> orderList;
 }

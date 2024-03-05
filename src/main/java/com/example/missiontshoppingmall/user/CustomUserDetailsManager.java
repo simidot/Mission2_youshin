@@ -49,11 +49,6 @@ public class CustomUserDetailsManager implements UserDetailsManager {
 
     public JwtResponseDto userLogin(JwtRequestDto dto) {
         // 넘어온 dto의 계정id가 없는 계정이라면 예외 발생
-        if (!this.userExists(dto.getUserId())) {
-            log.warn("user not exists");
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "user not found", new UsernameNotFoundException("users not found"));
-        }
-
         UserDetails userDetails = this.loadUserByUsername(dto.getUserId());
         // 비밀번호가 옳지 않아도 예외 발생
         if (!passwordEncoder.matches(dto.getPassword(), userDetails.getPassword())) {
@@ -70,8 +65,8 @@ public class CustomUserDetailsManager implements UserDetailsManager {
                 .build();
         log.info("토큰 발급 완료 : {}", jwtResponseDto.getSubject());
         return jwtResponseDto;
-
     }
+
 
     @Override
     public void createUser(UserDetails user) {
