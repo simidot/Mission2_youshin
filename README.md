@@ -104,7 +104,7 @@
 <summary><strong>ERD</strong></summary>
 <div markdown="1">       
 
-![img.png](erddiagram.png)
+<img width="978" alt="image" src="https://github.com/simidot/Shoppingmall_PJ/assets/114278754/eafa3218-dd80-430c-9a89-151454d90ddf">
 
 </div>
 </details>
