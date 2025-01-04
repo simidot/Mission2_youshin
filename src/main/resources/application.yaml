@@ -1,13 +1,12 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-
-    url: jdbc:mysql://localhost:3307/shoppingmall?useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3306/shoppingmall
     username: root
-    password: 1234
+    password: Dbtlalal4200!
   sql:
     init:
-      data-locations: classpath:import.sql
+      data-locations: classpath:data.sql
       mode: always
   jpa:
     hibernate:
